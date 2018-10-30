@@ -1,0 +1,12 @@
+Problem : 
+----------
+org.apache.hadoop.ipc.RemoteException(org.apache.hadoop.security.authorize.AuthorizationException): User: chenchu is not allowed to impersonate chenchu (state=08S01,code=0)
+
+SOLUTIONS:
+---------
+add following property in hive-site.xml
+
+ <property>
+ 	<name>hive.server2.enable.doAs</name>
+ 	<value>false</value> 
+</property>
