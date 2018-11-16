@@ -1,0 +1,9 @@
+problem:
+-------
+java.lang.ClassNotFoundException: javax.annotation.PreDestroy cannot be found by org.eclipse.e4.core.di_1.6.1.v20160712-0927
+
+Solution :
+---------
+Add this lines at end of your eclipse.ini
+
+--add-modules=java.se.ee
