@@ -1,0 +1,481 @@
+Data Types
+Byte : 8 bit signed value. Range from -128 to 127
+Short : 16 bit signed value. Range -32768 to 32767 Int : 32 bit signed value. Range -2147483648 to 2147483647 
+Long : 64 bit signed value. -9223372036854775808 to 9223372036854775807 
+Float : 32 bit IEEE 754 single-precision float 
+Double : 64 bit IEEE 754 double-precision float Char : 16 bit signed Unicode character. Range from U+0000 to U+FFFF 
+String : A sequence of Chars 
+Boolean : Either the literal true or the literal false Unit: Corresponds to no value : void 
+Null: null or empty reference 
+Nothing : The subtype of every other type; includes no values Any: The supertype of any type; any object is of type 
+Any : Java's Object class 
+AnyRef: The supertype of any reference type
+
+Unit  corresponds to no value 
+Null  coresponds to null or empty reference
+Nothing subtype of every other type; include no
+
+
+var  - mutable
+val  - immutable
+  
+Ex: 
+var a : Int = 12
+       a=40  (valid)
+val b : Int = 20 
+     b = 30  ( compile time error)
+     
+Note: Scala interpret the type of data based on the data
+
+String interpolation:
+---------------------
+val name="chenchu"
+val age=18.5
+
+type1 : println(name+" is "+" age+ " years old")
+type2 : println(s"$name is $age year old")
+type3:  println(f"$name%s is $age%f years old")  
+type4 : println(raw"Hello \n world")
+
+
+IF-Else in scala:
+----------------
+if(x==20){
+ println(20)
+ }else{
+ println("not 20")
+ }
+ 
+ if else as expression
+ ---------------------
+ val  res2  = if (x!=20) "twenty" else "not twenty";
+ println(res2)
+ 
+ 
+ while loop:
+ ----------
+ var x=0
+ while(x<10)
+ {
+  prinln(x)
+  x+=1
+ }
+
+do while loop:
+------------
+
+var y=10
+do {
+   println(y)
+    y+=1
+  }while(y<0);
+ 
+  
+for loop:
+-------
+for(i <- 1 to 5){  or  for (i <- 1.to(5)) 
+println(i)
+}
+
+for(i<- 1 until 6) {
+ println(i)
+ }
+ 
+ to , until both are same
+ 
+ for (i <- 1 to 9 ;j <- 1 to 3){
+   println(i+"  "+j)
+   // this act as inner for loop
+   }
+   
+   
+  val list = List(1,2,3,5,6,7,8)
+  for(i <- list){
+   println(i)
+   }
+   
+   
+   for(i <- lst){
+    println(i)
+    }
+    
+    for(i <- lst ; if i%2==0 ){
+    println(i)
+    }
+    
+    val result = for { i <- lst ; i%2==0} yield { 
+      i*i
+      }
+      println(result)  // result is list type store the loop returned value
+   
+   
+   Match Expressions (Switch Case)
+   -------------------------------
+   
+   val age = "50"
+   age match {
+   	 case "20" => println(age)
+    	 case "30" => println(age)
+   	 case "40" => println(age)
+   	 case "50" => println(age)
+   	 case _ => println("default")
+   
+   }
+   
+   
+  val results= age match {
+   	 case "20" => println(age)
+    	 case "30" => println(age)
+   	 case "40" => println(age)
+   	 case "50" => println(age)
+   	 case _ => println("default")
+   }
+   
+   println(results)
+   
+   val i=7;
+   i match {
+   case 1 | 3 | 5 | 7 | 9 => println("odd")
+   case 2 | 4 | 6 | 8 | 10 => println(even")
+   }
+   
+   
+   
+   Functions
+   --------
+   
+   def add(x:Int,y:Int) :Int = {
+       return x+y
+    }
+    
+    def substract(x:Int,y:Int) : Int = {
+     x-y
+    }
+   
+   def multiply(x:Int,y:Int) :Int = x*y ;
+   
+   def devide(x:Int, y:Int) = x/y;
+   
+   add(15,3)
+   substract(15,3)
+   multiply(15,3)
+   devide(15,3)
+   
+   
+   annonymous function:
+   -------------------
+   
+   var add = (x : Int, y:Int ) => x+y;
+    println(add(10+20))//30
+    
+    default values for function params:
+    ----------------------------------
+    def add(x:Int =45 ,y :Int=15) :Int = {
+      return x+y;
+    }
+     
+    add() //60
+    
+    void(Unit) return type example
+    
+   def add(x:Int ,y:Int) :Unit  ={
+    print(x+y)
+    }
+    
+    
+    Higer order functions:
+    ---------------------
+    take function as argument and return function as result
+    ex-1
+    
+    def math(x:Double ,y:Double , f:(Double,Double) => Double) : Double = f(x,y);
+    
+      println(math(50,30,(x,y) => x+y);
+    
+    ex-2:
+     def math(x:Double ,y:Double,z:double ,f:(Double,Double)=> Double) :Double = f(f(x,y),z);
+     
+     println(math(50,30,10,_+_);
+    
+    
+    
+    Partially Applied Functions:
+    -----------------------------
+    val sum (a:Int ,b,Int ,c:Int ) => a+b+c
+    
+    val f = sum (10,_:Int,_:Int)  // called partially
+    println(f(100,200)) 
+    
+    
+    Clousers
+    ---------
+    
+    clousers is a function which uses one or more variables declared otside this function
+    
+    
+    
+    Function carring :
+    ---------------
+    
+    def add(x:Int ,y:Int) = x+y ;
+     add(10,20)
+    def  add2(x:Int)=(y:Int) => x+y
+    add2(10)(20)
+    def add3(x:Int)(y:Int) = +y
+    
+    add3(100)(300)
+    
+    
+    
+ Strings:
+ ------
+ Strings are  immutable 
+ val str:String ="Hello World!"
+ str.toUpperCase
+ str.length()
+ 
+  val num1=75
+  val num2=100.25
+  val str1:String ="chenchu"
+  val str2:String ="star"
+  val results = printf("%d -- %f -- %s)",num1,num2,str1);
+  println(results) // (75 -- 100.250000 -- Hello World)()
+  println("(%d -- %f -- %s)".format(num1,num2,str1));
+  printf("(%d -- %f -- %s)",num1,num2,str1);
+  
+  
+  Arrays:
+  -------
+  store fixed size same data type elements
+  
+  1st way:
+  val myarray: Array[Int] = new Array[Int](5)
+  
+  2nd way:
+  val myarray2 = new Array[Int](5)
+  
+  3rd way :
+  val  myarray3 = Array(1,2,3,4,5,6);
+  
+  myarray(0)=20;
+  myarray(1)=30;
+  myarray(2)=40;
+  myarray(3)=50;
+  
+  for(x <- myarray){
+    println(x)
+  }
+  
+  for(x <- 0 to (myarray.length -1)){
+  	println(myarray(x));
+  }
+  
+  
+  import Array._
+  val results=concat(myarray,myarray2);
+  
+  
+  List:
+  -----
+  scala list are same like arrays except following two differences
+  1) arrays are mutables where as list are immutable.once list created we cannot modify
+  2)List represent linkedlist where as arrays represent flat
+  
+  val  myList : List[Int] = List(1,2,3,4,5)
+  val  myList1 : List[String] = List("abc","cde","dee")
+  
+  println(0 :: myList)
+  println(myList)
+  println(myList1)
+  println(1 :: 5 :: 9 :: Nil);
+  println(names.head)
+  println(myList.tail)
+  println(myList.isEmpty)
+  println(reverse)
+  println(List.fill(5)(2))
+  println(myList.max)
+  
+  myList.foreach(println)
+  
+  var sum : Int = 0;
+  myList.foreach(sum+=_)
+  println(sum)
+  
+  for(name <- names){
+  println(name)
+  }
+  
+  
+  Sets:
+  ----
+  In Scala sets are the un-ordered collections of unique elements of same data types. Scala Sets can be mutable or immutable.
+  
+  val myset:Set[Int] = Set(1,2,3,4,5,8,9)
+  val myset2: set[Int] = Set(4,2,9,16,18,)
+  val names:Set[String]=Set("Max","Tom","chenchu")
+  
+  println(myset+10)
+  println(names("Maxxx"))
+  println(myset.head)
+  println(myset.tail)
+  println(myset.isEmpty)
+  
+  println(myset++ myset2)
+  println(myset.+++(myset2))
+  
+  println(myset.(myset2))
+  
+  println(myset.insersect(myset2))
+  println(myset.max)
+  
+  printn(myset.min)
+  myset.foreach(println)
+  
+  for(name<- names){
+  println(name)
+  }
+  
+  
+  
+  Map:
+  -----
+  val mymap : Map[Int,String] = Map(801 -> "chenchu",802 -> "the" ,803 ->"star")
+  
+  println(mymap(801))
+  println(mymap.keys)
+  println( mymap.values)
+  println(mymap.isEmpty)
+  
+  mymap.keys.foreach { keys => 
+     println("key "+key);
+     println("value"+ mymap(key));
+   }
+   
+   println(mymap.contains(1023));
+   
+  val mymap2 : Map[Int,String] = Map(804 -> "bujji")
+  
+  println(mymap ++ mymap );
+  println(mymap.size)
+  
+  Tuples:
+  -------
+  contain heterogenious datatype
+  
+  val mytuple = (1,2,"hello",true)
+  val mytuple2 = new Tuple3(1,4,"chenchu")
+  val mytuple4 = new Tuple4(3,true,"chenchu",34)
+  println(mytuple)
+  
+  new Tuple2 ,new Tuple3... like this upto 22 possible
+  
+  println(mytuple._1)
+  println(mytuple._2)
+  
+  mytuple.productIterator.foreach{
+         i => println(i);
+        }
+  
+  println(1 -> "Tom" -> true)
+  println(mytuple3._3)
+  
+  
+  Option:
+  -------
+  it give some or none
+  
+  val lst = List(1,2,5)
+  println(lst.find(_ > 6))
+  println(lst.find(_ >2).get))
+  println(lst.find(_ >10).getOrElse("value not found")))
+  
+  val opt : Option[Int] = None;
+  println(opt.isEmpty)
+  
+  
+  
+============
+map & filter methods on collection
+
+val lst =List(1,2,3,4,5,6)
+val mymap= Map(1 -> "chenchu",2 -> "the" ,3 -> "star")
+lst.map(x => x*2)
+println(lst.map(x => "hi" *x)
+println(mymap.map(x =>"Hi"+2))
+println(mymap.mapValues(x => "hi" +x));
+println("hello".toUpper));
+println(List(List(1,2,3),List(3,4,5)).flatten);
+println(lst.flatMap(x => List(x ,x+1)))
+
+println(lst.filter(x => x%2==0))
+
+
+val lst2 = List ("A","B","C")
+println(lst.reduceLeft(_+_));
+println(lst2.reduceleft(_+_));
+println(lst.reduceRight_+_));
+
+
+println(lst.foldLeft(100)(_+_));
+println(lst2.foldLeft("z")(_+_));
+println(lst2.foldRight("z")(_+_));
+
+println(lst.scanLeft(100)(_+_));
+println(lst2.scanLeft("z")(_+_));
+
+  Clases:
+  ------
+   class User(var name : String,var age:Int);
+   // if we use val getter and setter is possible
+   // if we use var only getter is possible
+   // if we don't use val/var both are not possible
+   // if we private out  side we cannot access the vaible 
+   class User(private var name:String , val age:int) {}
+   val user=new User("Max",28);
+   
+   println(user.name)
+   println(user.age)
+   
+   Auxalary constructor:
+   ---------------------
+    class User(var name : String,var age:Int){
+	     def this(){
+	    	 this("tom",32)
+	     }
+	      def this(name:String){
+	    	 this(name,32)
+	     }
+    };
+
+  
+ 
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  val textFile = sc.textFile("file:////home/chenchu/Downloads/100mbcsv/Data8277.csv")
+val counts = textFile.flatMap(line => line.split(" ")).map(word => (word, 1)).reduceByKey(_ + _)
+counts.saveAsTextFile("file:////home/chenchu/Downloads/100mmcsv-op")  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
