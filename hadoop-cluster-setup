@@ -34,6 +34,9 @@ slave - ip-192-168-1-165.ec2.internal     192.168.1.165
 
 hdfs-site.xml
 --------------
+#dfs.replication  ->  replication configurtion
+#dfs.namenode.name.dir -> name node meta data store location 
+#dfs.datanode.data.dir -> actual data store location in datanode
 <configuration>
   <property>
        <name>dfs.replication</name>
@@ -49,8 +52,14 @@ hdfs-site.xml
   </property>
 </configuration>
 
+
+
 core-site.xml:
 -------------
+
+#fs.default.name  ->  name node location and rpc port number
+#hadoop.tmp.dir  -> name node temparary local location
+
 <configuration>
     <property>
         <name>fs.default.name</name>
@@ -62,8 +71,14 @@ core-site.xml:
     </property>
 </configuration>
 
+
+
 yarn-site.xml
 ------------
+# Configure Resource manager informaton
+#yarn.resourcemanager.hostname -> location  where RM will run
+#yarn.nodemanager.aux-services,yarn.nodemanager.auxservices.mapreduce.shuffle.class  -> Application master configuration (not a mandatory)
+
 <configuration>
   <property>
       <name>yarn.nodemanager.aux-services</name>
@@ -86,6 +101,9 @@ netstat -ntlp
 
 mapred-site.xml
 ---------------
+#To configure Mapreduce framework name information
+#mapreduce.framework.name -> provide mapreduce framework name (in mr2 value is yarn)
+
 <configuration>
     <property>
         <name>mapreduce.framework.name</name>
@@ -93,6 +111,15 @@ mapred-site.xml
     </property>
 </configuration>
 
+slave:
+------
+# to Configure datanodes informations
+# ip address of datanodes 
+#one ip per line
+
+hadoop-env.sh & mapred-env.sh & yarn-env.sh
+--------------------------------------------
+export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64 
 
 
 
