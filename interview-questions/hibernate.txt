@@ -1,0 +1,127 @@
+drawback of jdbc:
+-----------------
+1.sql queries wrt database.if database changes then modify queries also
+2.all exceptions are checked and should handle with try-catch
+3.table structre modified then modify the query in all places
+4.resultset is not seriable cannot trasfer data over n/w
+5.rowset not suported by all drivers
+6.connection,stmt closing in compulsary ,otherwise memeory leaks issue will occurs.
+
+Hibernate features:
+------------------
+1.HQL  
+	a. perform curd operation
+	b.database independent.
+	c.hql look like sql.
+	d.hql contails variable names and class names.
+2.un checked exceptions
+	a. all are unchecked in hibernate.
+3.Caching
+	a.two levels of cache.
+4.Criteria Api
+	a.it prepare tuned queries 
+5.Lazy loading
+	loads objects lazily from database.
+6.Locking
+	a.Optimistic locking
+	b.pessimistic locking
+7.Connection poling
+=============================================================================================
+q) can we define more than one class mapping in single hbm file?
+	yes .repeat<class> tag
+		<hibernate-mapping>
+		 <class name="student" table"student">
+		 </class>
+		 <class name="Employee" table"emp">
+		 </class>
+
+Q) How many mapping files can be created in project?
+   no fixed number .generally one hbm file for classes for onemodule which needs db support.
+   
+ Q) how many configuration files are created in project?
+   it depends on no.of databases used in a project
+   
+==================================================================================================================================================================================
+Configuration file:
+-----------------
+ we have to define below details in configuration file:
+		a. connection properties
+		b.hiberate properties
+		c.mapping properties
+	
+	ex: hibernate.cfg.xml
+		<hibernate-configuration>
+			<session-factory>
+				
+				<property name="connection.driver_class">********</property>
+				<property name="connection.url"> ***************</property>
+				<property name="connection.username">***********</property>
+				<property name="connection.password">***********</property>
+				
+				<property name="dialect">*************</property>
+				<property name="show_sql">true</property>
+				
+				<mapping resources="product.hbm.xml"/>
+			</session-factory>
+		</hibernate-configuration>
+		
+=====================================================================================================================================================================================	
+hbm2ddl_auto property:
+---------------------
+   a.validate (default)
+   b.created ( drop if existing any and create)
+   c.update ( create if not exist and use same if exist)
+   d.create-drop (first create and drop after work completes)
+   
+ Q) difference between load and get methods ?
+	1. load() -> load the object lazily ,if not found throw ObjectNotFound exception
+	2.get() -> load the early , if not found return null.
+=================================================================================================================================================================================
+Object states in hibernate:
+--------------------------
+1. transient state
+2. persistance state
+3. detached state
+
+
+
+			Transient state 
+					|
+	save()			|  
+	persist()		|
+	saveOrUpdate()	|
+					|
+			persistance state
+					|     
+	close()			|    update()
+	evict()			|    merge()
+	clear() 		|    saveOrUpdate()
+					|
+			Detached state
+
+Q) difference beween update and merge ?
+	trasfer object from detached state to persistance states
+	update() -> session cahce contains same object then throws NONUNIQUEObjetException
+	merge() ->  session cache contains same oject then changes copy and savein db but not throw exception.
+	
+	
+Generator clasess:
+-----------------
+1. assigned (default)
+2.increment (maxid +1)
+3.sequence (hibernate_sequence)
+4.hilo  (max_lo+next_hi+next_hi)
+6.identity  ( folow auto increment algarithm of db)
+7.native (sequence,identity,hilo)
+8.foreign
+9.UUID(Ip,start of jvm,s/m time,counter value of jvm)
+10.custom generator (IdentifierGenerator (i) )
+
+Q)what is difference between save() and update() ?
+	both are used to save the object in db.
+	save () -> save the object in dband return id in seriable format. suitable for generator other than assigned.
+	persist() -> store object in db but not return id  if obj. 
+   
+Q) when LazyInitializeException occurs?
+	when we are accesing non id property of proxy object after session closed.
+

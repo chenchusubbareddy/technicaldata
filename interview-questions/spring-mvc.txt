@@ -1,0 +1,108 @@
+DispatcherServlet configuration in web.xml:
+----------------------------------------
+<servlet>
+	<servlet-name>spring</servlet-name>
+	<servlet-class>o.s.w.s.DispatcherServlet</servlet-class>
+	<load-on-startup>1</load-on-startup>
+	<init-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>/WEB-INF/applicationcontext.xml</param-value>
+	</init-param>
+<servlet>
+	<servlet-mapping>
+		<servlet-name>spring</servlet-name>
+		<url-pattern>*.do</url-pattern>
+	</servlet-mapping>
+	
+	
+<servlet-name>-servlet.xml  -> inside WEB-INF
+
+HanderMapping(i):
+----------------
+map the request to appropriate controller bean
+1. BeanNameUrlHandlerMapping
+2. SimpleURLHandlerMapping
+3. DefaultAnnotationHandlerMapping
+
+Controller Bean:
+---------------
+it is request handler component
+Ex: @Controller
+
+
+ModelAndView:
+------------
+store model data and view name
+
+
+ViewResolver:
+------------
+helper to the DS to identify appropriate view
+1.InterresourceViewResolver
+2.ResourceBundleViewResolver
+3.XmlViewResolver
+4.TilesViewResolver
+5.BeanNameViewResolver
+
+<bean id="viewResolver" class="org.s.w.s.v.InterresourceViewResolver">
+	<property name="prefix" value="/"/>
+	<property name="suffix" value=".jsp"/>
+</bean>
+
+Spring MVC Flow:
+----------------
+browser  ---request ---- DS ------> HanderMapping
+									ControllerBean
+									public MAV abc(){
+									}
+									
+									ViewResolver
+									
+		----response ---			view
+===========================================================================================================
+validations:
+------------
+messages.properties
+--------------------
+annotationname.commandname.fieldname
+NotBlank.l.username=user name should not be blank
+Size.l.password=password should be contain atleast 8 characters
+
+<bean id="messagesource" class="ResourceBundleMesageSource">
+	<property name="baseName" value="messages"/>
+</bean>
+
+
+FileUploading:
+-------------
+1.input type=file
+2.form type shouls be post
+3.disable the file encryption 
+	<form action="******" method="post" encype="multipart/form-data">
+	    Browse file:  <input type="file" name="f1"/>
+	   <input type="submit">
+	 </form>
+	 
+4.CommonMultipartResolver ->read file name ,content type,size,file data from request and set to multipartFile
+5.MutipartFile
+ 
+Interceptors in spring:
+----------------------
+1.similar to filter.
+2. can define pre and post processing logics.
+	HandlerInterceptor (I)      
+	HandlerInterceptorAdaptor(c)
+	
+	methods:
+	------
+	preHandle(req,res,object handler)
+	postHandle(req,res,object handler ,MAV)
+	afterCompletion()
+===========================================================================================================================================================
+PDF & Excel format:
+------------------
+	pdf:  AbstractPdfView(c)
+	excel:AbstractXLView(c)
+	
+	
+	

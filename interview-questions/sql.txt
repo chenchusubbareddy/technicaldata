@@ -1,0 +1,129 @@
+Sql :
+-----
+  DDL:Drop,Rename,Create,Alter,Truncate 
+  DML:Update,Delete,Insert
+  TCL:Commit,RollBack,SavePoint
+  DCL:Grant,Revoke
+  DQL/DRL: Select
+  
+Q) Difference between truncate and Delete ?
+
+		Truncate                     Delete
+		-------						-------
+	1. It is DDL 					1.It is DML command
+	2.Perminant deletion            2.Temparary deletion
+	3.cannot  delete specific 		3.can delete specific
+
+Q) Difference between synonyms and views ?
+	synonyms      											 views
+	--------												-------
+1.cannot to create a synonym based on partial table      1.can create a view based on partial table
+2.we cannot create synonym based  one table				 2. we can create view based on more than one table.
+3.it becomes invalid in  two cases						 3.view become invalid in three cases.
+4.can create synonym based on another synonum            4.we can create view on another view upto maximum 32.
+
+
+
+Union: This operator returns all the values from the tables excluding duplicate values
+UnionAll: This operator returns all the values from the tables include duplicate values
+Intersection: this return common values from both tables.
+Minus:the values which are present in one table but not available in second table.
+
+2nd higest salary:
+------------------
+
+SELECT MAX(Salary) From Employee WHERE Salary < ( SELECT Max(Salary) FROM Employee);
+
+Q)  find the average salary of employees department wise along with other details?
+	select department_id,avg(sal) from employees group by department_id;
+	Select avg(sal) over (partition by department_id) as avg_dept, a.* from employees a orfer by eployee_id;
+
+Q) Find the details of most recent joinee from all departments?
+	select lead(hire_date) over (partition by department_id  order by hire_date ) as recent_joinee,.a.* from employee a order by recent_joiners;
+Q) Second higest salry in each department?
+	select * from (select sal,dense_rank() over (partitionby deptno order by sal desc) rnk from emp) where rnk=2;
+
+Analytic Functions:
+-------------------
+To assign  rank numbers to each row or else group of rows wise.
+
+ROW_NUMBER() : To assign Different rank numbers to same value.
+RANK() : To assign same rank number to same value.but is skipping the next sequence rank number in the order.
+DENSE_RANK() : To assign same rank number to same value but is not skipping the next sequence rank number in the order.
+
+	Syntax : ANALYTICAL_FUNCTION_NAME() OVER ([PARTITION BY <COLUMN NAME>] ORDER BY <COLUMN NAME>)
+	SET PAGESIZE 100
+	SET LINES 100
+	SELECT ENAME,SAL,ROW_NUMBER() OVER(ORDER BY SAL DESC) RANK FROM EMP;
+	SELECT ENAME,SAL,RANK() OVER(ORDER BY SAL DESC) RANK FROM EMP:
+	SELECT ENAME,SAL,DENSE_RANK() OVER(ORDER BY SAL DESC) RANK FROM EMP;
+	SELECT ENAME,SAL,DEPTNO,DENSE_RANK() OVER(PARTITION BY DEPTNO ORDER BY SAL DESC) RANK FROM EMP;
+	
+
+2nd hgiest salary:
+-----------------
+select * from (Select ENAME,SAL , dense_rank() over(order by SAL desc) rnk from EMP) a where rnk=2;
+
+2nd higest salary in each department:	
+------------------------------------
+SELECT * from ( SELECT ENAME,SAL,DEPTNO,DENSE_RANK() OVER(PARTITION BY DEPTNO ORDER BY SAL DESC) RANK1 FROM EMP ) as a where RANK1=2;
+LAG: TO access previous subsequence row :
+	syntax:
+		LAG(next_col_name,[offset,defult_value) over ([partition by columnname] order by columnname [asc/desc])
+		offset default value 1
+		default value for if subsequence row not exist
+		partition by for to do partiton the data
+		Ex: select ename,sal,lag(sal,1) over (order by sal desc) as prev_row from emp;
+LEAD: To access next subsequence row
+	LEAD(next_col_name,[offset,defult_value) over ([partition by columnname] order by columnname [asc/desc])
+		offset default value 1
+		default value for if subsequence row not exist
+		Ex: select ename,sal,lag(sal,1) over (order by sal desc) as prev_row from emp;
+		
+First_value() : to get first value from results 
+		Syntax : first_value(column_name) over(partition by columnname order bycolumnname [asc/desc])
+		Ex1: select ename,sal,first_value(ename) over (order by sal ) as lowsalname from emp;
+		Ex2 :Selectdeptno,ename,sal,first_value(ename) over (partition bydeptno order by sal rows between unbounded preceding and unbounded follwing) from Emp) from emp;
+		
+
+Last_value():   to get last_value from results
+            syntax: last_value(column_name) over (partition by colname order by columnname [asc/desc])
+			by default last_value use one clause i.e "rows between unbounded preceding and current row "
+			this clause give un expected results.
+			so in last_value function we have to specify the class i.e "rows between unbounded preceding and unbounded follwing"
+			
+			Ex1: Select ename,sal,last_value(ename) over(order by sal rowsbetween unbounded preceding and unbounded follwing) from emp;
+			Ex2: Selectdeptno,ename,sal,last-value(ename) over (partition bydeptno order by sal rows between unbounded preceding and unbounded follwing) from Emp) from emp;
+			
+First keep & Last keep: 
+		Ex: select empno,ename,deptno,sal,min(sal) keep (dense_rank first order by sal) over (partition by deptno) as lowest 
+		max(sal) keep(dense_rank last order  by sal) over (partition by deptno ) as higest from EMP order by dept,sal;
+			
+			
+Q) display max salary with employee name and min salary and employee name ?
+   select min(ename) keep(dense_rank first order by sal) as min_ename,min(sal) as min_sal,max(ename) keep(dense_rank last order by sal) as max_ename ,max(sal) as max sal from emp;
+ 
+ JOINS:
+ -------
+	(INNER) JOIN: Returns records that have matching values in both tables
+	LEFT (OUTER) JOIN: Returns all records from the left table, and the matched records from the right table
+		EX: SELECT Customers.CustomerName, Orders.OrderID FROM Customers LEFT JOIN Orders ON Customers.CustomerID = Orders.CustomerID ORDER BY Customers.CustomerName;
+	RIGHT (OUTER) JOIN: Returns all records from the right table, and the matched records from the left table
+	FULL (OUTER) JOIN: Returns all records when there is a match in either left or right table
+
+Q)Identify the employees below avg sal and above avg sal of their dept (new col, which says above or below)
+	SELECT * FROM employees  WHERE salary > ALL(SELECT avg(salary)FROM employees GROUP BY department_id);
+	
+Q) what are pseudo columns ?
+	1.these  columns behave like a table column,but is not actual stored in table.
+	2.on psuedo columns only select queries can be permited,but not INSERT ,UPDATE,DELETE
+	3.Ex: CURVAL,NEXTVAl,lEVEL,ROWID,ROWNUM
+Q)What are Indexes ?
+	1.index is schema object ,which pointer locates the physical address.
+	2.this is used by oracle server to speed up the retrival,manupulate rows.
+	3.index can be create explicity/automatially.
+	4.index is activated when index column is used in where condition.
+	5.index is necessary of disk i/o by using an indexed path to locate data quckyly.
+	6.when table drop ,corresonding indexes also dropped.
+	Automatic Index : creates automatially when you define PRIMARY/UNIQUE constrint in a table definition.
+	Manual index:  user can create non unique indexes or columns to speed up the acess rows  eg: create index indexname;

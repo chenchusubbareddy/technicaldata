@@ -1,0 +1,14 @@
+Difference between Hbase and RDBMS ?
+----------------------------------
+		HBASE 																RDBMS
+		-----															   --------
+1.Column-oriented ,distributed ,versioned db.				   1.Row oriented ,Tabular structured data
+2.Don't have query language like SQL.						   2.Have SQL query language support.
+3.can handle structured andsemi structured data.               3.can handle structured data.
+4.designed to store De-normalized data						   4.designed to store Normalized data.
+5.no support for JOINS or aggregations						   5.support JOINS or aggregations 
+6.Can handle huge  volume of data							   6.Can handle limited amount of data at a time.
+
+Q) When should prefer HBASE over other database?
+	1. When each row is slighly different in the schema.
+	2. When

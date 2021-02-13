@@ -1,0 +1,86 @@
+Q) Exception handling in spring 
+		@ExceptionHandler(EntityNotFoundException.class)  -- methodlevel
+		@ControllerAdvice  -- class level
+		HandlerExceptionResolver (i) -> resolveException()
+
+Q) what is swagger ?
+	1. It is the most popular API documentation format for RESTful Web Services.
+	2. It builds around the OpenAPI Specification that helps developers to design, build, document, and consume RESTful APIs.
+	3. It provides both JSON and UI support.
+	4.JSON can be used as a machine-readable format, and Swagger-UI is for visual display, which is easy for humans to understand by just browsing the API documentation.
+	 
+	swagget-ui.html
+	localhost:8080/V2/api-docs
+	loccalhost:8080/swagger-ui.html
+
+Q)OOOPS features ?
+	data hiding -> Our internal data should not go out directly.By using private modifier we can impletememt data hiding.
+	abstraction -> Hiding internal Implmentaion and highliting set of services is called abstraction.,Abstract classes/Interfces we can  implement abstraction.
+	encapsulation  -->(datahiding + abstraction) binding of data and corresponding methods into single unit.provide security 
+	inheritance   -> reusablity
+	polymarphism  -> same method name with different forms   --> overloading ,method hiding (compile time)
+																overriding  (run time)
+	
+Q)How to make own singleton class?
+	1) Declare class as final ,so cannot be extended.
+	2) make all fields private ,so direct access not allowed
+	3)don't provide setter methods.
+	4)make all mutable fields as final, so it's value can be assigned only once.
+	5)initilze all fields via constructor.
+	6)perform  cloning of objects in the getter methods to return a copy rather than return actual object referenced.
+	
+Q) Differece between ArrayList and LinkedList ?
+
+				ArrayList														LinkedList
+	1.it Internaly use dynamic array to store the elements					1.it uses internally  a double LinkedList to store the elements.
+	2.Manupulation ArrayList is slow because  it internally use and			2.Manupulation of LinkedList is faster than ArrayList
+	  array.if any element removed from array,all bits are shifted			  because it uses a doubly linked list, so no bit shifting
+	  in memory.															  is required in memory.
+
+	3.An ArrayList class can act as a list only because                     3.LinkedList class can act as a list and queue both because it implements List and Deque interfaces.
+		it implements List only.
+	
+	4. ArrayList is better for storing and accessing data.					4.LinkedList is better for manipulating data
+
+Q) Differece between static and instance methods in java ?
+	
+			Instance Methods															Static Methods
+			----------------															---------------
+	1.require object to call method											1.call directly with class name
+	2.no keyword is required												2.use static keyword for method	
+	3. from Static methods can’t access instance							3.FROM chrInstance method can access static variables and static methods directly.
+		methods and instance variables directly
+
+Q) Hashmap updates in java8 ?
+	1.before Java 8, the performance of the HashMap was poor due to the hash collision, 
+	2. the retrieval time of elements from HashMap increases from O(1) to O(n)
+	3.Java 8 hash elements use balanced trees instead of linked lists after a certain threshold is reached
+	4.HashMap starts with storing Entry objects in a linked list but after the number of items in a hash becomes larger than a certain threshold.
+		The hash will change from using a linked list to a balanced tree
+
+Q)What is different ways to create String object in java ?
+		String s = new String("abcd") : two objects created ,pointig to heap
+		String s="Abcd" ; one object created,reference point to scp
+	
+Q) What  are different types of inner clases?
+   Without existing of one type of object if there is no chance of existing  another type of object then go for inner classes.
+	1.Notmal or Regular inner classes. eg:class inside a class
+	2.Method local inner classes  eg: class inside a a  method.
+	3.Annonymous innner classes  : 
+				1. Annonymous inner class that etends class.
+				2. Annonymous inner lass that implement interface.
+				3. Annonymous inner lass that defined inside method arguments.
+	4.static nested inner classes.  class inside a class with static keyword.
+	
+Q) Contract deffence between == and .equals
+	1.if r1==r2 ==> r.equals(r2) is always true
+	2.r1==r2 is false ==> r1.equals(r2) may true/false
+	3.r1.equals(r2) is true ==> r1==r2 may true/false
+	4.r1.equals(r2) is false ==> r1==r2 is always false.
+Q) Contract between .equals and hashcode ?
+   1. r1.equals(r2) is true => r1.hashcode() == r2.hashcode() is true
+   2. r1.equals(r2) is false => r1.hashcode() == r2.hashcode() is true/false
+   3.r1.hashcode == r2.hashcode is true  ==> r1.equals(r2) is true/false
+   4.r1.hashcode()==r2.hashcode() is false => r1.equals(r2)  false
+	
+	

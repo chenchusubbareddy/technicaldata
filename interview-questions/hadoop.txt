@@ -1,0 +1,151 @@
+Different file formats:
+
+Property    			AVRO   													Parquet									ORC
+Schema Evolution   		Most efficient,as the schema     		schema evolution is expensive as			Schema evolution hereis limited 
+						is stores as json with the file		    it needs to be readand merged across 		adding new columns and few cases
+																al the parquet files						of column type-widening
+															
+Compression 			less efficient							Best with snappy							Best with ZLIIB
+
+Splitability 			partially 								Partially									Fully
+
+Row/Column Oriented		Row/Column								Column										Column
+
+Read/Write				AVG(R/W)								 Read-heavy 									Read-heavy
+
+Optimized processing 
+Engines					Kafka								      spark 										Hive
+
+
+
+Text files (CSV & TSV):
+----------------------
+1.Eachline is a record/data and lines are terminated by a new line character(\n)
+2.Good write performance but slow reads
+3.Do not support block in-built compressions,explicitly we can use compresiion
+4.Text file are inherently splittable on \n character.
+5.Limited schema evolution(new fields can only be appended to existing fields while old fields can never be deleted
+
+AVRO:
+----
+1.Row oriented storage formats
+2.It is a file format plus a serialization and deserialzation framework ,Avro uses JSON for defining data type and serilized data in compact binary format.
+3.Avg read/write performance.
+4.support Block compression.
+5.Avro files are splitable.
+6.was mainly designed for schema evolution.fields can be renamed added ,deleted while old files can still be read with new session.
+6.Excellent for read entire row.
+
+Sequence file:
+--------------
+1.Each record is stored as a key value pair in binary format.
+2.Good write performace.
+3.support bock compressions.
+4.sequence files are splittable.
+5.Limited schema evolution (New  fields can only appended to existing fields while old fileds can never be deleted)
+
+
+Parquet:
+--------
+1.It is columnar format,similar to RC/ORC .Parquet store nested data structure in flat columnar format.
+2.Faster reads with slower writes.
+3.support compression mostly with snapy algarithm.
+4.parquet file conditinaly spilttable 
+5.limited schema evolution (new fields can only be appended  to existing  fields  while  old fields  can never be deleted)
+
+1.Column oriented storage formats
+2.Schema is store in the footer of file
+3.Due to merging of schema across multiple files ,schema evolution is little expensive
+4.ideal for read heavy data operations.
+5.Excellent for selected column data consumption and processing.
+6.Works excellent with spark as there is vectorized reader for parquet.
+  consumption and processing.
+ 
+RC file:
+-------
+1.these are flat files consisting of binary key/value pairs ,and it shares much similarity with sequence file
+2.Was developed for faster reads  but with a compromise with write performance.
+3.provides significant block compression,can be compressed with high  compression ratios.
+4.Rcfiles are splittable .
+5.no schema evolotion
+
+ORC:
+----
+1.Column oriented storage format. (instead of just storing rows of data adjecent to one another we also store column values adjacent to each other)
+2.better version of RC file.
+3.was developed for faster reads but  with a compromise with write performace.(Better than RC file)
+4.provide significant  block  compression,can be compressed with high compression  ratios.(Better than RC file)
+5.ORC is splittable.
+6.mainly designed for  faster read so no schema evolution.
+7.Schema is store in the footer of file.
+8.Schema evolution is limited to adding new columns.
+9.ideal for read heavy data operations.
+10.Excellent for selected column data consumption and processing .
+11.Works excellent with hive a there is vectorized reader for parquet.
+ 
+ 
+Q)Difference between -put and copyFromLocal ?
+				Put												CopyFromLocal
+				---												------------
+1.Copy single src, or multiple srcs from 					1.copyFromLocal is similar to put command, except that the source is restricted to a local file reference
+	local file system to the destinationfilesystem
+2.support reading from stdin								2.does not support reading from stdin
+3.an error is returned if the file persists 				3.overwrite an existing file using -f when using copyFromLocal
+	when “put” is executed.			
+	
+Q) What is Difference between get and getMerge command ?
+	get : get the all files or folders from hdfs to local filesystem
+	getmerge : mere the all files in hdfs and save as single file in local dst. this is only for text files.
+
+Q) what are different types of sorting ?
+	Quick sort ,Merge sort ,Heap sort,Selection sort,insertion sort ,bubble sort.
+	-> Quick sort is better among all sorting technique,because it will use less space and sort data in less time.
+
+Q) Difference between CAT and Text ?
+     hadoop 1.x: 
+			1.both commands work same for text files
+			2.text command will work for .gz file only.
+	hadoop 2.x: 
+			1.both commands will work same for  text file
+			2.text comads will work for .deflate,.gz,.bz2 files also
+
+Distributed cache :
+	 1.Distributed cache capacity is 10 gbby defaulte.
+	 2.will use for small files (100mb to 200 mb)
+	 3.follows FIFO
+	 4.if Data is large we will end uo with outofmemory issue.
+	 5. hadoop copy distribute cache file to mapper places and remove after completion of join completion.
+	 
+Input formats and output formats :
+---------------------------------
+TextInputFormat<LongWritable,Text>					TextOutputFormat<?,?>
+KeyValueTextInputFormat<Text,Text>					SequenceFileOutputFormat<?,?>
+NlineInputFormat<LongWritable,Text>					DBoutputFormat<?,?>
+SequenceFileInputFormat <?,?>						CustomoutputFormat<?,?>
+DBInputFotmat<?,?>
+CustomInputFormat<?,?>
+
+Relation between block-size and split-size:
+------------------------------------------
+Block size=128mb (hadoop 2x)
+MIN_SPLIT_SIZE=1kb
+MAX_SPLIT_SIZE=2 pow 64  - 1
+
+SPLIT_SIZE=min(MAX_SPLIT_SIZE,max(BLOCK_SIZE,MIN_SPLIT_SIZE))
+							or 
+		  max(MIN_SPLIT_SIZE ,MIN(BLOCK_SIZE,MAX_SPLIT_SIZE))
+		  
+		 
+-> block size is physical ,split_size is logical
+-> default record reader is LineRecordReader
+Q) How frequently secondary name node will pull the data from namenode?
+	Either 1 hour / after one minllion txs
+
+Hadoop Schulars:
+	1.FIFO
+	2.FAIR
+	3.CAPACITY
+
+Q) How to start/stop job histroy server ?
+	$mr-jobhistory-daemon.sh  start/stop  historyserver
+	Default port :19888

@@ -1,0 +1,63 @@
+i)TextInputFormat is default input format.
+2)TextoutputFormat is default output format.
+3)IdentityMapper is Identity Mapper format.
+4)IdentityReducer is Identity Mapper format.
+5)Quicksort is sorting algarithm.
+6)Key Based Sorting will happen in MR
+7) Default record Seperator in TextOutputFormat is  '\t'
+8) hadoop follows first sorting then shuffle
+10) No need to define shuffle and sort in jib class ,Framework wil take care.
+12)in Mapreduce mappers are mandatory ,reducer  is not a mandatory.
+13) If reducer is not there then shuffle and sort is not going to cal, in this case mapper o/p is final.
+14) Record means key and value.
+15) if you want only value from record then make the key as NullWritable.
+16) if you want stop the reducer phase then set 'jb.setNumReduceTask(0)
+17) Combiner logic == reducer logic (only if operator follow associative and commutative law)
+18) Combiner logic != reducer logic (if operator not follow associative and commutative law)
+
+Hadoop deployment command :
+--------------------------
+hadoop jar <path of jar file>  <main class along with package> <hdfs input path> <hdfs output path>
+
+setup ()
+	1.initializing resources.
+	2.it is going to cal before the map() in the Mappper
+	3.before the first reduce() method in Reducer
+
+cleanUp()
+	1.close the job resources
+	2.it is going to cal before the map() in mapper.
+	3.after the reduce() method in reducer.
+map() & reduce() for processing data.
+main purpose of setup() & cleanUp() is comparing the records 
+
+Compression in Mapreduce:
+------------------------
+ Compression types : NONE ,RECORD(Each record level compression),BLOCK(each block level compression)
+			-> by default is NONE
+			-> best is Block
+ Copression codecs:
+				DefaultCoded  =>  .deflate   ( by default is default codec)
+				GZIPCodec => .gz
+				BZIPCodec => .snappy   
+				SnappyCodec => .codecs     ( best codec)
+				LZOCodec => .lzo 			( best codec)
+				
+by default hadoop disable the codec
+Enable compresion for large files  and long iterval jobs
+disable the comression for small files and small interval jobs (1 sex ,1 min)
+Properties to add for compression in mapred-site.xml:
+	1. mapred.output.compress  -> true
+	2.mapred.output.compressiontype -> block
+	3.mapred.output.compress.codec -> org.apache.io.compress.DefaultCodec
+
+
+Q)Mapreduce Performance improvements ?
+	1)combiner
+	2.Distributed cache 
+	3.Speculative execution 
+	4.partitions 
+	5.Tune mapper/reducer task
+	6.Minimizing the Disk Spill by Compressing Map Output  (LZO Compression)
+	7.Re-usage of Writables
+	8.map side joins

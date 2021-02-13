@@ -1,0 +1,76 @@
+Problems in jdbc-api: 
+--------------------
+1. boiler plate code problem like open connection ,statement,process resultset,close connection
+2. jdbc throws checked exceptions need to handle with try-catch
+3. may chance of memmory leak if we for forgot close connection,stmt
+
+=========================================================================================================================================================================
+
+Call back interfaces:
+---------------------
+user defined methods call pass to predefined method.
+
+1. RowMapper -> convert each row of resultset into pojo object. 
+2. ResultSetExtractor -> extractData(rs) -> convert only specific rows of resultset into pojo
+3. PreparedStatementCreator -> createPrepareStatement(conn) ->  to send prepared stmt logic
+some mehtods on jdbctemplate:
+---------------------------
+queryForMap()
+queryForList()
+queryForObject()
+queryForRowSet()
+execute()
+update()
+
+================================================================================================================================================================================
+
+Spring ORM:
+-----------
+problems in ORM frameworks:
+---------------------------
+1.when working with orm tools there is boiler plate code problem.
+2.supports only local trasanctions.
+3.each orm has own excepions,if orm tools changes then exception handling logic should change.
+
+Integration spring with hibernate:
+---------------------------------
+configure bellow two beans 
+	`1.LocalSessionFactoryBean -> it create and return sessionfactory
+			a. DataSource
+			b.mapping resources/annotation classes
+			c.hibernate properties
+	2. HibernateTemplate -> it is helper class and take care about opening session,starting tx ,commit txs,close session
+	
+	configuration:
+	------------
+	<bean id="ldfb" class="LocalSessionFactoryBean">
+		<property name="datasource" ref="ds">
+		<property name="mappingresources">
+			<list>
+				<values>student.hbml.xml<value>
+			</list>
+		</property>
+		<property name="hibernateproperties">
+			<props>
+				<prop key="dialect">***********</prop>
+				<prop key="show_sql>true</prop>
+			</props>
+		</property>
+	</bean>
+	<bean id="ht" class="HibernateTemplate">
+		<property name="sessionfactory" ref="lsfb"/>
+	</bean>
+	
+Methods on Hibernate Template:
+-----------------------------
+1.save()
+2.update()
+3.delete()
+4.load()
+5.get()
+6.persist()
+7.merge()
+8.bulkudate()
+9.find()
+10.findByNamedParam()
+	

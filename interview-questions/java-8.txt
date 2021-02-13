@@ -1,0 +1,21 @@
+java 8 new features:
+-------------------
+Q)Java8 new features?
+	1)lambda expressions
+	2)functional interfaces
+	3)default methods
+	4)predicates
+	5) functions ,consumer ,supplier 
+	6)Double colon operators
+	7)stream api
+	8)date and time api
+	
+Q) Java 8 Stream Intermediate And Terminal Operations ?
+     Intermediate operations return a stream ,,can be pipelined to another stream ,These are lazy and executed when terminal operation called.
+	 Ex: map(), filter(), distinct(), sorted(), limit(), skip()
+	 Terminal operations return end results not  stream.
+	 forEach(), toArray(), reduce(), collect(), min(), max(), count(), anyMatch(), allMatch(), noneMatch(), findFirst(), findAny()
+	 
+	 
+	 
+	 

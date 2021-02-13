@@ -1,0 +1,201 @@
+Q)Difference between bucketing and partition ?
+
+Partitioning:
+  pros:
+	a)distribute load  load hoizontally.
+	b)In partition faster execution of queries with the low volume of data takes place.
+  Cons:
+	a)There is the possibility of too many small partition creations- too many directories.
+	b)Partition is effective for low volume data.
+	c)There is no need for searching entire table column for a single record.
+
+Bucketing:
+     Pros:
+	    a)It provides faster query response like portioning
+		b)In bucketing due to equal volumes of data in each partition, joins at Map side will be quicker.
+		c)We can define a number of buckets during table creation.
+		
+Q) by default field seperator :  ctrl + A  or \001 
+Q)by default collection item seperator : ctrl+B or \002
+Q)by default map keys seperator is ctrl+c or \003
+Q)Default line seperator is \n
+Q)Default storage option is textfile
+-----------------------------------------------------------------
+Cascade : drop database if database hive tables
+Restrict : Drop database if database don't have tables.
+
+--------------------------------------------------------------------
+
+Load Data from file to Hive table:
+--------------------------------
+LOAD DATA LOCAL INPATH 'file_location' OVERWRITE INTO TABLE TABLENAME;
+
+Q) Difference between External and Managed table ?
+   There is no difference between Managed table and external table when we are doing operations like load,insert,retrival.
+   Only difference at dropping table time.
+   if  Managed table drop corresponding hdfs data will drop.
+   if External table drop then corresponding hdfs data will not drop .only table schema from hive delete.
+   When multiple users working on same data better to create external table .
+   
+Q) what is SET Command ?
+	we can define some environment level properties : hadoop,hive,environmental,system,custom
+	once hive shell clone then all custom properties will delete.
+	Any global update property in hive-site.xml
+	
+	
+Q) Different data types in Hive?
+		Primitive Type: Int,float,double,long,boolean,varchar,char
+		Complex data types: Array,Map,Struct,Union Type.
+		
+	Single table with all Datatypes
+	---------------------------------
+	Create table if not exist student_data
+	(name String comment 'student name',
+	subjects array<String> comment 'student subjects',
+	marks map<String,int> comment 'student marks',
+	address struct<loc :String comment 'student location' , pincode :Int comment 'student pincode' ,city:String comment 'student city'> ,
+	details uniontype<double,int ,array<String>,Struct<a:int,b:String>,boolea> comment 'student details )
+	Comment 'my table name is studentdata'
+	ROW FORMAT DELIMITED FIELDS TERMINATED BY '#'
+	COLLECTION ITEMS TERMINATED BY ':',
+	MAP KEYS TERMINATED BY ':'
+	LINES TERMINATED BY '\n'
+	STORED AS TEXT FILE 
+	LOCATION '/hive/kalyan/studentdata'
+	TBLPROPERTIES('key1='value1','key2'='value2');
+  
+		
+Q) Explain Hive Partition ?
+	The partitioning in Hive means dividing the table into some parts based on the values of a particular column like date, course, city or country. 
+	The advantage of partitioning is that since the data is stored in slices, the query response time becomes faster.
+	Table creation time there is no concept of 'static/dynamic partition' 
+	
+	Static Partition :
+		i)It is required to pass the values of partitioned columns manually while loading the data into the table. Hence, the data file doesn't contain the partitioned columns.
+		ii) $ Load data local inpath '/home/codegyani/hive/student_details1' into table student partition(course= "java");
+		iii)if we know about data then go for 'static partition'
+		
+		CREATE  TABLE IF NOT EXIST tableame_partition (name String,id int)
+		PARTITION BY (COURSE STRING ,YEAR INT)
+		ROW FORMAT DELIMITED BY 
+		FIELDS SEPERATED BY  ','
+		LINES TERMINATED BY '\n'
+		STORED AS TEXTFILE;
+		
+		LOAD DATA LOCAL INPATH 'filelocation' OVERWRITE INTO TABLE tableame_partition PARTITION(COURSE='cse' ,year ='1');
+		
+		
+	Dynamic Partiton:
+	 The values of partitioned columns exist within the table. So, it is not required to pass the values of partitioned columns manually.
+		i) STEICT MODE : Atleast one static partition column
+	   ii)NON-STATIC MODE no Condition on Partition Column.
+	**) We can use load statement only all partition conditions are static (but data always from file only)
+	**) we can use insert statatement with out any condition on partition columns(but data always from 'table' only)
+	**) order of partition column.
+		 -> all partition columns are static work (s1,s2,s3,s4)
+		 -> all Partition columns are dynamic(d,d2,d3,d4,d5,d6)
+		 -> first few columns are static the remaining all are dynamic will work.(s1,s2,s3,s4,d1,d2,d3)
+		 -> first few partition columns are dynamic then remaining all are static will not work (d1,d2,d3,d4,s1,s2,s3)
+	
+		SET hive.exec.dynamic.partition=true;
+		SET hive.exec.dynamic.partition.mode=nonstrict
+		CREATE TABLE IF NOT EXIST USER_BUCKET_TABLE (name String,id int) CLUSTRED BY (id) INTO 4 BUCKETS;
+		CREATE TABLE IF NOT EXIST USER_BUCKET_TABLE (name String,id int) CLUSTRED BY (id) SORTED BY (id desc) INTO 4 BUCKETS;
+		
+		INSERT OVERWRITE TABLE USER1 SELECT * FROM USERS;
+		
+	
+Q)Explain Bucketization ?
+	The bucketing in Hive is a data organizing technique. It is similar to partitioning in Hive with an added functionality that it divides large
+	datasets into more manageable parts known as buckets. So, we can use bucketing in Hive when the implementation of partitioning becomes difficult. 
+	However, we can also divide partitions further in buckets.
+	 1.By default bucketiztion is disable.
+	 2.to enable : set hive.enforce.bucketing=true
+	 3.Bucketization main purpose is sampling and partition data.
+	 
+	 x = hash_code(bucket_column) % no . of buckets
+	
+	pros: 1. Due to equal volumes of data in each partition, joins at Map side will be quicker.
+		  2. Faster query response like partitioning
+	Cons:
+		  1.You can define number of buckets during table creation but loading of equal volume of data has to be done manually by programmers.
+		  
+	CREATE TABLE IF NOT EXIST USER1 (name string,id int) CLUSTERED BY (id)  Into 4 buckets;
+	INSERT OVERWRITE TALE user1 SELECT * FROM USERS;
+	Select * from users1 TABLESAMPLE (bucket 1 out of 4);
+	
+Q) How to run different commads in hive shell?
+		
+	hive> dfs -ls /home/;   --> hdfs commands
+	hive> query;            --> query
+	hive> source <path of file>
+	hive>! ls -l /home;
+
+Q)How to create UDF in hive ?
+	1) Create a class by extending  UDF class,implement 'evaluate' method
+	2)prepare jar file
+	3)add jar '<path of jar>'
+	4)create a Temparary function fun_name as '<UDF class along with packagename>'
+	5)select function_name(col) from table_name;
+	
+Q) What is serde ?
+	-> short name for Serializer and Deserializer ?
+	-> hive uses the serde as InputFormat to read and write table rows
+	-> Serde : InputFileFormat  -> <key,value> -> Deserializer -> Row Object   ==> Row Object -> Serializer -> <key,value> -> OutputFileFormat -> HDFS File
+	->Serde main methods
+			initialize() -> initializing the resource
+			serialize() -> serializing the data
+			deserialize -> de-serializing data 
+	EX: CREATE TABLE IF NOT EXIT STUDENT_AVRO (NAME Strng,id int,course string ) stored as AVRO;
+		or 
+		CREATE TABLE IF NOT EXIT STUDENT_AVRO (NAME Strng,id int,course string ) ROW FORMAT SERDE 'org.apache.hadoop.hive.serde2.avro.AVROSERDE' STORED AS 
+		INTPUTFORMAT 'org.apache.hadoop.hive.ql.io.avro.AVROCONTAINERINPUTFormat'
+		OUTPUTFORMAT 'org.apache.hadoop.hive.ql.io.avro.AvroContainerOutputFormat';
+		
+Q) What are Hive Storage Options:
+	Row Oriented Storage :Text File,SquenceFile,Avro File
+	Column Oriented:RC file,ORC File(hortonworks),PARQUET file (cloudera).
+	
+	
+ Q) HOW TO WRITE MAP SIDE JOIN WORKS?
+	SELECT /*+ MAPJOIN(sales) */ PRODUCTS.* ,sales.* from products JOIN SALES ON products.name=sales.name;
+ 
+ Q)Word count in Hive ?
+	CREATE TABLE WORD_COUNTS as SEELCT Word,count(1) as cnt (SELECT  explode(split(line,' ')) as word from table) w GROUP BY WORD order by word.
+Q) How to improve hive performace?
+	1. partitioning tables
+	2.De-normalize table.
+	3.compress map/reduce output
+	4.map joins
+	5.bucketing
+	6.Input format selection
+	7.parralel exectution.
+	8.Vectorization
+		set hive.vectorized.execution = true
+		set hive.vectorized.execution.enabled = true
+	9.sampling
+	10.Tez execution
+	11.Cost-Based Optimization in Hive  :set hive.cbo.enable=true;  set hive.compute.query.using.stats=true; set hive.stats.fetch.column.stats=true; set hive.stats.fetch.partition.stats=true;
+	12.Hive Indexing 
+	
+Q)What are the limitations of Apache Hive ?
+	Some of the limitations of Apache Hive are as follows:
+	   1)Apache hive does not offer real-time queries and row level updates.
+	   2)Latency of Apache Hive queries is generally very high.
+	   3)Limited subquery support.
+	   4)No support for materialized view.
+	   5)update or delete operations are not supported in hive.
+	   6)Not designed for OLTP(online transitional process).
+
+Q)How can you add a new partition for the month December in the above partitioned table?
+		
+		ALTER TABLE partitioned_transaction ADD PARTITION (month=’Dec’) LOCATION  ‘/partitioned_transaction’;
+		
+Q)What is ObjectInspector functionality?
+	To analyze the structure of individual columns and the internal structure of the row objects we use ObjectInspector. 
+	Basically, it provides access to complex objects which can be stored in multiple formats in Hive.
+
+Q) Partition with Bucketing example?
+	CREATE TABLE products ( product_id string, brand string, size string, discount float, price float )
+	PARTITIONED BY (gender string,  category string,color string)
+	CLUSTERED BY (price) INTO 50 BUCKETS;

@@ -1,0 +1,251 @@
+Q)What is spring boot?
+	spring boot makes it easy to create standalone ,production grade sring based applications that you can jut run.
+	Spring Boot is a project that is built on the top of the Spring Framework. It provides an easier and faster way to set up, configure, and run both simple and web-based applications.
+	In Spring Boot, there is no requirement for XML configuration (deployment descriptor).
+	It uses convention over configuration software design paradigm that means it decreases the effort of the developer.
+
+Features:
+--------
+1.Spring Boot makes it easy to create stand-alone, production-grade Spring based Applications that you can "just run".
+2.provide wide range of non functionl features that are common for large classes for project.
+3.Spring Boot applications need minimal Spring configuration.
+4.In build containers Embed Tomcat, Jetty or Undertow directly (no need to deploy WAR files).
+5.Provide opinionated 'starter' dependencies to simplify your build configuration and depend management.
+6.Provide production-ready features such as metrics, health checks, and externalized configuration.
+7.no requirement for XML configuration.
+8.profiling (manage application mode like dev,qa,prod)
+8.Microservices design support.
+
+Q) Spring boot 2 new features?
+1.removed java 7 support ,min java8 
+2.builded on top of Spring framework 5.0 
+2.Tomcat minimum supported version is 8.5,jetty 9.4 
+4.default connection pool has changed from Tomcat to HikariCP.
+3.Hibernate minimum supported version is 5.2
+4.Gradle minimum supported version is 3.4
+5.Quartz schedular support ( spring-boot-starter-quartz)
+6.HTTP/2 Support
+8.junit5 support
+
+Q) what is use of @SpringBootApplication anotation ?
+  1.this annotation equalant to @Configuration,@EnableAutoConfiguration ,@Component Scan 
+  
+Spring boot Actuator:
+--------------------
+1.monitor and manage your application when you push it to production
+2.it is used to access current state of application in prod envirinment.
+3.provides rest end points which you can simply use and check vaious metrics.
+4. to enable the features is to add a dependency on the spring-boot-starter-actuator
+		Endpoints: 
+		1.bean 2.caches 3.health 4.info 5.loggers 6.sessions 7. shutdown 8.threaddump
+5. To enlabe/disable particular end point  : management.endpoint.shutdown.enabled=true
+
+spring boot jpa respositiry hierarichy:
+--------------------------------------
+Repository
+CurdRepository
+PagingAndSortingRepository
+JpaReposotiry
+OurOwnRepository
+
+Spring boot annotations:
+-----------------------
+@SpringBootApplication
+@EnableAutoConfiguration
+@ConditionalOnClass and @ConditionalOnMissingClass
+@ConditionalOnBean and @ConditionalOnMissingBean
+@ConditionalOnProperty
+@ConditionalOnResource
+@ConditionalOnWebApplication and @ConditionalOnNotWebApplication
+@ConditionalExpression
+@Conditional
+
+Connecting multiple Datasources:
+--------------------------------
+spring boot data jpa by default supports  connecting with one daabase,database connection configuration (auto configuration) is given by spring boot only.
+we need to pass inputs using either propeties or yml like driver class,username ,password,show_sql,ddl_auto..
+
+if we want connect to multiple databases ,by default there is support in spring boot.
+ we need to do  define below objects(beans) in order using  java configuration style.
+	1.Datasources
+	2.EntityManagerFactory
+	3.TransactionManager
+
+DB#1 - postgressDb
+cmd>psql -U postgressDb
+cmd>create database sample
+cmd>\l  (list all dbs)
+cmd>\dt (all tables)
+
+dependencies: devtools,lombok,datajpa,mysql,postgreSql,web
+
+db1.datasource.driver-cass-name=org.postgresql.Driver
+db1.datasource.jdbc-url=jdbc:postgreSql://localhost:5432/db1
+db1.datasource.username=postgress
+db1.datasource.password=root
+
+db2.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+db2.datasource.jdbc-url=jdbcc:mysql://localhost:3306/db2
+db3.datasource.username=root
+db4.datasource.password=root
+
+package in.narshit.raghu.model;
+@Datasources
+@Entity
+@AllArgConstuctor
+@NoOrgConstructor
+public class Product{
+@Id
+private Integer id;
+private String code;
+private String name;
+
+}
+
+package in.nareshit.raghu.model;
+@Data
+@NoArgsConstructor
+@AllArgConstuctor
+@Entity
+public class customer{
+private Integer id;
+private String email;
+private String name;
+}
+
+package in.nareshit.raghu.repo.product;
+
+public interface ProductRepository extends JpaRepository<Product,Integer>{
+}
+public CustomerRepository extends JpaRepository<Customer,Integer>{
+
+}
+
+ ** > define configuration for each database
+ 
+package in.nareshit.raghu.config.product;
+@Configuration
+@EnableTransactionManagement
+@EnableJpaRepositories(entityManagerRef="db1EntityMangerFactory",transactionManagerRef="db1TrasactionManager",basePackages="in.nareshit.raghu.repo.product")
+public class Db1Config(
+     // datsource
+	 @Bean
+	 @ConfigurationProperties(prifix="db1.datasource")
+	 public Datasource db1DataSoure(){
+	 return DataSourceBuilder.create().build();
+	 }
+	 
+	 //EntityManagerFactory
+	 @Bean
+	 public LocalContainerEntityManagerFactoryBean db1EntityMangerFactory( EntityManagerFactoryBuilder emfb){
+		HashMap<String,Object> propeties = new HashMap<>();
+		propeties.put("hibernate.hbm2ddl.auto","create");
+		propeties.put("hibernate.dialect","org.hibernate.dialect.postgreSQL10");
+		return  emfb.datasource(db1DataSoure()).packages("in.nareshit.raghu.model.product").properties(properties).build();
+	 }
+		 
+	 //TManager
+	 @Bean
+	 public PlatformTransactionManager db1TrasactionManager(@Qualifier("db1EntityMangerFactory") EntityManagerFactory entityManagerFactory){
+		
+	 }
+}
+
+
+package in.nareshit.raghu.config.product;
+@Configuration
+@EnableTransactionManagement
+@EnableJpaRepositories(entityManagerRef="db2EntityMangerFactory",transactionManagerRef="db2TrasactionManager",basePackages="in.nareshit.raghu.repo.customer")
+public class Db2Config(
+     // datsource
+	 @Bean
+	 @ConfigurationProperties(prifix="db2.datasource")
+	 public Datasource db2DataSoure(){
+	 return DataSourceBuilder.create().build();
+	 }
+	 
+	 //EntityManagerFactory
+	 @Bean
+	 public LocalContainerEntityManagerFactoryBean db2EntityMangerFactory( EntityManagerFactoryBuilder emfb){
+		HashMap<String,Object> propeties = new HashMap<>();
+		propeties.put("hibernate.hbm2ddl.auto","create");
+		propeties.put("hibernate.dialect","org.hibernate.dialect.postgreSQL10");
+		return  emfb.datasource(db1DataSoure()).packages("in.nareshit.raghu.model.customer").properties(properties).build();
+	 }
+		 
+	 //TManager
+	 @Bean
+	 public PlatformTransactionManager db2TrasactionManager(@Qualifier("db2EntityMangerFactory") EntityManagerFactory entityManagerFactory){
+		
+	 }
+}
+
+=============================================================================================================================================================================
+Spring boot MVC exception handling:
+----------------------------------
+work flow (on success): client  -> request -> DispatcherServlet -> doDispatch(req,res) -> HandlerMapping -> Controller -> DS -> ViewResolver ->view -> Model(read) -> DS -> UI
+WorkFlow (in failre) : client  -> request -> DispatcherServlet -> doDispatch(req,res) -> HandlerMapping -> Controller -> DS ->BasicErrorController (error()/errorHtml()) -> Response
+Q) Is Spring/Spring boot handling Errors Internally ? How?
+    Yes . By using ErrorControler(I) which has on impl class BasicErrorController .that provides 2 methods
+	errorHtml() : ModelAndView (call made from browser)
+	error() : ResponeEntity<T> (call made from non browser)
+
+
+DefaultErrorAttributes:-
+BasicErrorController collect all error details as Map<String,Object> 
+Which holds details like 'status,error,path,timestamp...etc'.
+this ErrorMap only called as ErrorAttributes,this is given as final resonse to client
+
+#ErrorController with path /error
+	| - AbstactErrorController
+		| - BasicErrorController
+				errorHtml()
+				error()
+
+#1 . error.html page under /templates folder
+	we can create error.html file under 'templates' folder and design based on requirement .this gets executed on any problem(Http status : 4** and 5**)
+	ie for 400 ,401,403,404 ... 500 ,501,etc .only one page is executed : error.html
+
+#2 .specific Error page  create under 'error'folder with ErrorCode.html format
+	ex: 404.html  <-- 40 ,401,402 ,....
+		500.html
+	with @ResponseStatus(HttpStatus.NOT_IMPLEMENTED)
+		 Custom Exception
+
+=> if controller is throwing any exception then default HTTP status is 500 IternalServerError.To chage errorcode to any other number use @ResponseStatus(HttpStatus.NOT_IMPLEMENTED)(on top of your custom exception).
+
+Q) How to create Custom ErrorController 
+	we can customize default ErrorController code.Spring boot has provided BasicErrorController(c) then
+	spring boot chooses our class as priority and also error.html ,404.html,5**.html will not work.
+Q) Exception handling in spring boot rest
+	1.Default Error message (Boot ReST) + @ResponseStatus
+	2. ** Customized Error Message -@ControllerAdvice,@ExceptionHandler
+	
+	1.Default Error Message(Boot ReST) + @ResponseStatus
+	 In this case we are using default message given by BasicErrorController #error
+	 (ResponseEntity<T> type --> json ) format
+	 
+	 Here , we can customize only status and message
+	 {
+	   "timestamp":"",
+	    "status":"",
+	    "error":"",
+	    "trace":"",
+		"messge":"",
+		"path":"",
+	 }
+
+	***customized Error message - @ControlerAdvice/@RestControlerAdvice , @ExceptionHandler
+	In this case ,we are defining one new Exception Handler class by using annotations
+	@ControllerAdvice/@RestControlerAdvice -- at handler class level
+	@ExceptionHandler - at method level
+	ResponseEntity<T> -- method return type
+
+
+Response Http Status code:
+-------------------------
+1** information  : 100 Continue ,101 Switching Protocol
+2** success : 200 OK,201 Created,202 Accepted,204 No Content
+3** redirect : 300 Multiple Choice,301 Moved perminantly,302 Found
+4** client side error :400 Bad Request,403 Forbidden,404 Not Found,405 Method Not Allowed,408 Request Timeout
+5** server side error :500 Internal Server Error,501 Not Implemented,502 Bad Gateway,504 Gateway Timeout

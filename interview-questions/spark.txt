@@ -1,0 +1,223 @@
+Q)What is Spark ?
+	1.Distributed processing framework.
+	2.Apache project donated by AMP lab.
+	3.can be use for Bug data processing,batch processing,stream processing,Data analysis,ML on bigdata,graph processing.
+Q) What are rdd features?
+	1.In-memory computations
+	2.distributed data across cluster.
+	3.fault tolerance.
+	4.immutability.
+	5.partitioned.
+	6.different persistance levels.
+	7.parrale processing.
+	8.Lazy evalution.
+	
+Q) what are advantages of spark over mapreduce?
+	1)more faster due to in-memory ,lazy evalution
+	2)easy coding
+	3)multiple language support
+	4)batch & real time processing
+	5)Sql support with spark sql module
+	6)different file format support.
+	7)can run in any platform( mesos /yarn/kubernates)
+	8)mechine learning and graphx support.
+	9)In-built optimization technique like catalyst optimizer.
+	
+q) what are limitations of Rdd ?
+	1)no input optimization engine.
+	2)overhead of serialization.
+	3)garbage collections.
+	4)cannot handle structure data.
+	5)degrade when lesser memory.
+	6)no runtime stafety.
+Q) RDD vs Dataframe
+		RDD                                      						 Dataframe
+	introduced in 1.0x                          			          introduced in 1.3x
+	TypeSafe                                    					  Not Typesfe
+	we can process structured as well as unstructured data  		  we can process structured and unstructured data efficiently.
+	Developer has to do optimization            			          Auto optimization by Catalystic optimization
+	not a good performace as Dataframe	       				          good performance than RDD
+	Not memory efficent 								              Not memory efficent 
+Q) Dataframe vs Dataset
+	released in 1.3 v                               released in 1.6 vs
+	rdd+schema										dataframe+typesafety
+	does not provide compile time safety            provide compile tile safety
+	suppport java/python/scala/R					support java/scala
+	slower than dataset								faster than dataframe
+	
+Q) How to improve performance of Spark?
+	1)kyro serialiation 
+	2)broadcase variable /broad cast join  
+	3)avoid UDF/UDAF
+	4)DynamicResourceAllocation (spark.dynamicAllocation.enabled ,spark.shuffle.service.enabled ,spark.dynamicAllocation.minExecutors, spark.dynamicAllocation.maxExecutors, spark.dynamicAllocation.initialExecutors)
+	5)use G1GC garbage collector 
+	6)executor tuning
+	7)partition maintanance / data skew avoid techniques
+	8)speculative executuon
+	9)use proper persistant levels
+	10)Cost based Optimization
+	11)Right file format and file compression.
+	12)Use mapPartitions() over map()
+	13)Disable DEBUG & INFO Logging.
+ 
+Q) What are Transfermations and actions ?
+	Transfermations :map (),filter(),flatMap(),mapParttionsWithIndex(),sample(),union(),intersection(),distinct(),groupByKey(),
+					reduceByKey(),aggregateByKey(),sortByKey(),join(),cogroup(),cartesian(),pipe(),coalesce(),repartition(),repartitionAndSortWithinPartitions()
+	Actions:reduce(),collect(),count(),first(),take(),takeSample(),takeOrdered(),saveAsTextFile(),saveAsSequenceFile(),saveAsObjectFile(),countByKey(),foreach()
+				
+Q)what is difference between Narrow trasformation vs Wide Transfermations ?
+	NARROW TRASFORMATION :
+							i)All the elements that are required to do computations in the same /single partition.
+							ii)No shuffling of data across nodes.
+							iii) results of map(),filter()
+	WIDE TRASFORMATION:
+							i)ALl the elements required to computations in  many partiton.
+							ii) this results in shuffling of data across the nodes.
+							iii) resultsof groupbykey,reducebykey.
+							
+							
+							
+
+Q)Spark submit command ?
+	Syntax: spark-submit  --class <main-class>  --master <master-url>   --deploy-mode <deploy-mode>  --conf <key>=<value>  ... # other options   <application-jar>  [application-arguments]
+	Ex1: spark-submit --class org.apache.spark.examples.SparkPi --master spark://207.184.161.138:7077 --deploy-mode cluster --executor-memory 20G  --total-executor-cores 100
+						--executor-cores 	--num-executors 50 --jars <if any dependency jar files > --conf "spark.sql.shuffle.partitions=20000" /path/to/examples.jar  1000 
+						
+	–driver-memory  -> Memory to be used by the Spark driver
+	–driver-cores  -> CPU cores to be used by the Spark driver
+	–num-executors ->  The total number of executors to use
+	–executor-memory -> Amount of memory to use for the executor process.
+	–executor-cores -> Number of CPU cores to use for the executor process.
+	–total-executor-cores -> The total number of executor cores to use.
+Q) Difference between client mode and cluster mode?
+
+	cluster : In cluster mode, the driver runs on one of the worker nodes, and this node shows as a driver on the Spark Web UI of your application. 
+				cluster mode is used to run production jobs.
+	Client : the driver runs locally where you are submitting your application from. client mode is majorly used for interactive and debugging purposes.
+			 Note that in client mode only the driver runs locally and all other executors run on different nodes on the cluster
+Q) Persistance levels in spark?
+     1.persistance levels define - where (on memory/disk)  and how (serialized/deserialzed) data would be stored.
+	 2.Apache spark automatically persist the intermediatery data from various shuffle operations depending on persistance levelconfigured.
+	 3.it is often suggested call persist() method on the rdd incase of reuse, if in case system not persisted automatically.
+	 4.spark has various persistance levels to store  rdd on disk on in memory or as  a combination of both
+		MEMORY_ONLY : store RDD as deserialized java objects in the jvm,if rdd does not fit in memory ,some partitions willlnot cacheed and will
+					  be re computed in the fly each time they are needed.this is default level.
+		MEMORY_AND_DISK: store RDD as deserialized java objects in the JVM.if the RDD does not fit in memory ,store the partitiions on disk
+						 and read them from disk when they are needed.
+		Memory_ONLY_SER : Store RDD as Serialized java objects (one byte array per partition)
+		MEMORY_AND_DISK_SER : like MEMORY_ONLY_SER ,but spill partition that don't fit in meory to disk instead of recomputing 
+								on the fly each time they are needed
+		DISK_ONLY : store the rdd partition only on disk
+		OFF_HEAP : like MEMORY_ONLY_SER ,but store data in OFF_HEAP memory.
+			Ex: df.persist(StorageLevel.DISK_ONLY)
+			
+Q) DAG in SPARK?
+			DAG in spark is set of vertices and Edges ,where vertices represent  the RDD and the edges represent the operations applied on RDD.
+			In spark DAG ,every edge direct from earlier to later in the sequence.on calling of action ,the create DAG submits to/examples
+			DAG schedular which further splits the graph into the stages of the task based on the demarcation of shuffling,new stage is created
+			based on the data shuffling requirements.
+
+Q)How to define own schema  in dataframe?
+			List<StructField> fields = new ArrayList<>();
+			StructField field = DataTypes.createStructField("id", DataTypes.Int, true);
+			StructField field = DataTypes.createStructField(fieldName, DataTypes.StringType, true);
+			StructType schema = DataTypes.createStructType(fields);
+			Dataset<Row> peopleDataFrame = spark.createDataFrame(rowRDD, schema);
+			spark.read.schema(schema).csv("filelocation")
+		
+		
+		
+Q)What is Catalyst Optimizer in spark ?
+
+	Query  -> Un-resolved logical-plan -> Logical plan->OPtimized logical plan -> physical plan(multiple) -> cob model ->select physical plan -> rdd
+
+
+Q)Memory Management in SPark?
+    Executor Memory devided into 
+			1.Reserved memory (300 MB)
+			2.user memory   ( upto user how to use this eg:map,array)
+			3.storage memory (rdd/df cache or broadcast stored)(if this memory is full then spill to disk)
+			4.Execution memory (temparary is stored in Executory , can spill on disk)
+	storage memory and execution memory are shared memory (spark.memory.fraction)
+		
+		
+Q) How to read multi json files?	
+		if json is in sinlge line :
+			spark.read.json("location")
+        if json is in multiline 
+			spark.read.option(multiline","true").json("location")
+			
+Q)What is DAG and lineage  ?
+   DAG:
+	1. DAG in Apache Spark is a set of Vertices and Edges, where vertices represent the RDDs and the edges represent the Operation to be applied on RDD.
+	2.In Spark DAG, every edge directs from earlier to later in the sequence. On the calling of Action, the created DAG submits to DAG Scheduler which further splits the graph into the stages of the task
+  Lineage:
+	1.RDD Lineage is just a portion of a DAG(one or more operations) that lead to the creation of that particular RDD.
+	2.So one DAG(one Spark program) might create multiple RDDs, and each RDD will have its lineage - path in your DAG that lead to that RDD.
+	3.If some partitions of your RDD got corrupted or lost Spark may rerun part of the DAG that leads to the creation of those partition.
+				
+Q) WHAT is pairrdd ?
+   pair rdd nothing but Rdd contain key-value. 
+Q)Joins in DataSets ?
+	empDF.join(deptDF,.col("emp_dept_id") ===  deptDF.col("dept_id"),"inner")
+	
+	empDF.join(deptDF,empDF("emp_dept_id") ===  deptDF("dept_id"),"outer")
+	
+    empDF.join(deptDF,empDF("emp_dept_id") ===  deptDF("dept_id"),"full")
+    
+   empDF.join(deptDF,empDF("emp_dept_id") ===  deptDF("dept_id"),"fullouter")
+   
+    
+Q) Executor Tunig ?
+   10 nodes 
+   16 cores per node => 10* 16 = 160 cores
+   64 gb ram per node => 10* 64 = 640gb
+   
+  for good hdfs throughput (executor-cores = 5)
+   *) leave one core per hadoop/yarn/os deamons
+		number of cores available per node 16-1 = 15)
+		total 15* 10 =150 cores
+	*No of executors = totoal cores / no of cores per executor => 150/5 = 30
+	* one executor for application master (30-1=29 executor)
+	* Number of executors per node = > 30  /10 => 3
+	* Memory oer executor => 64/3 =21 GB
+	* Counting of memory over head = 7% of 21 gb => 3 gb
+			21-3 = 18gb
+	29 executor ,18gb for each executor ,5cores for each executor
+   
+Q) What is SparkContext ?
+	Spark context creates bridge between driver and execution environment(cluster).All the communication happens with sc.
+	With sparkcontext we can set configuration like executors,cores,memory,set job name,master.we can create RDD,Accumulators and broadcast variables.
+
+Q) What is Executor overhead ?
+		The amount of off-heap memory (in megabytes) to be allocated per executor. 
+		This is memory that accounts for things like VM overheads, interned strings, other native overheads, etc. This tends to grow with the executor size (typically 6-10%)
+		spark.yarn.executor.memoryOverhead	 - max(executorMemory * 0.10, with minimum of 384)
+		
+Q) What is spark core ?
+	Spark Core is the fundamental unit of the whole Spark project,It provides all sort of functionalities like
+		1)task dispatching,scheduling
+		2)input-output operations 
+		3)in-memory computation, fault tolerance
+		4)Memory management,monitoring jobs
+		5)interaction with storage systems
+		6)allow diverse workloads for streaming, SQL, and machine learning
+		
+Q)How to start/stop job History server ?
+	$SPARK_HOME/sbin/start-history-server.sh
+	$SPARK_HOME/sbin/start-history-server.sh
+	Default port  :18080
+Q) What is Tungsten?
+	Spark Dataset/DataFrame includes Project Tungsten which optimizes Spark jobs for Memory and CPU efficiency.
+	Tungsten is a Spark SQL component that provides increased performance by rewriting Spark operations in bytecode, at runtime. 
+	Tungsten performance by focusing on jobs close to bare metal CPU and memory efficiency.
+	Since DataFrame is a column format that contains additional metadata, hence Spark can perform certain optimizations on a query. Before your query is run,
+	a logical plan is created using Catalyst Optimizer and then it’s executed using the Tungsten execution engine.
+Q) Exceution flow in spark ?
+	1.The driver creates the DAG (directed acyclic graph)
+	2. Once the DAG is created, the driver divides this DAG into a number of stages. 
+	3.These stages are then divided into smaller tasks and all the tasks are given to the executors for execution.
+	
+	
+	
+	
