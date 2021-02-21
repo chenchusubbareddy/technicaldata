@@ -8,7 +8,44 @@ Difference between Hbase and RDBMS ?
 4.designed to store De-normalized data						   4.designed to store Normalized data.
 5.no support for JOINS or aggregations						   5.support JOINS or aggregations 
 6.Can handle huge  volume of data							   6.Can handle limited amount of data at a time.
+7.Create structure/schema upfront.							   7.Schema is dynamic
+8.not used memory to represent null	records					   8.used used memory to represent null records
+9.validations while insert/delte/modify					       9.no validations while insert/delte/modify		
 
 Q) When should prefer HBASE over other database?
 	1. When each row is slighly different in the schema.
 	2. When
+	
+Q)Hbase commands?
+	start-hbase.sh/stop-hbase.sh
+
+ Q)Write Operation in hbase:
+	--------------------------
+	 1.First data is written  to a commit log called "write ahead log" WAL,then it moved to seperate structure callled memstore.
+	 2.when size of the memstore exceeds a given threshold (default 2 mb) it flushed into a file on disk called HFILE (hdfs file)
+	 
+Q)Delete operation on Hbase:
+	-------------------------
+	1.when delete nothing delete immediately,rather delete marker (ie thomstone) is written to indicate that a given key is deleted .
+	2.during read process ,data marked as delete is skipped
+	3.During major compaction ,delete process will be finalized.
+	
+Q) What is Compaction in hbase ?
+   Flushing data from memstore to disk implies a creation of new hfile for each write 	operation  and we will end up with more hfiles ,
+   so to avoid this there are two types  of compactions.
+   Major Compation:
+   ---------------
+   Minor compaction is the process of combining the configurable number of smaller HFiles into one Large HFile. 
+   Minor compaction is very important because without it, reading particular rows requires many disk reads and can reduce overall performance.
+   
+   Major Compaction:
+   ----------------
+   Major compaction is a process of combining the StoreFiles of regions into a single StoreFile. It also deletes remove and expired versions.
+   By default, major compaction runs every 24 hours and merges all StoreFiles into single StoreFile. 
+   After compaction, if the new larger StoreFile is greater than a certain size (defined by property), the region will split into new regions.
+   
+   
+   
+Q)
+	
+	

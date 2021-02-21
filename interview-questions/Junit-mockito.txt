@@ -1,0 +1,23 @@
+@Test(expected=NullPointerException.class)
+@Test(timeout=1000)
+
+
+
+JUNIT5 vs JUNIT4:
+-----------------
+@BeforeAll  	 @BeforeClass
+@AfterAll 		 @BeforeClass
+@BeforeEach  	 @Before
+@AfterEach       @After
+@Disable	     @Ignore
+@Tag  			 @Category
+assertThrows     expected attribute
+assertTimeOut     timeout attribute
+
+New in junit 5 :
+@Nested   -> nested tests
+@RepeatedTest  -> executed tests multiple times
+
+Junit5 Annotations:
+-------------------
+@Test

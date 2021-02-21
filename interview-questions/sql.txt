@@ -22,11 +22,9 @@ Q) Difference between synonyms and views ?
 3.it becomes invalid in  two cases						 3.view become invalid in three cases.
 4.can create synonym based on another synonum            4.we can create view on another view upto maximum 32.
 
-
-
 Union: This operator returns all the values from the tables excluding duplicate values
 UnionAll: This operator returns all the values from the tables include duplicate values
-Intersection: this return common values from both tables.
+Intersection: This return common values from both tables.
 Minus:the values which are present in one table but not available in second table.
 
 2nd higest salary:
@@ -36,7 +34,7 @@ SELECT MAX(Salary) From Employee WHERE Salary < ( SELECT Max(Salary) FROM Employ
 
 Q)  find the average salary of employees department wise along with other details?
 	select department_id,avg(sal) from employees group by department_id;
-	Select avg(sal) over (partition by department_id) as avg_dept, a.* from employees a orfer by eployee_id;
+	Select avg(sal) over (partition by department_id) as avg_dept, a.* from employees a order by eployee_id;
 
 Q) Find the details of most recent joinee from all departments?
 	select lead(hire_date) over (partition by department_id  order by hire_date ) as recent_joinee,.a.* from employee a order by recent_joiners;
@@ -127,3 +125,10 @@ Q)What are Indexes ?
 	6.when table drop ,corresonding indexes also dropped.
 	Automatic Index : creates automatially when you define PRIMARY/UNIQUE constrint in a table definition.
 	Manual index:  user can create non unique indexes or columns to speed up the acess rows  eg: create index indexname;
+	
+Q) difference between rowid and rownum ?
+	Rowid 															ROWNUM
+  1.t rowid is a permanent unique identifier for that row    1.the rownum is temporary
+  2.the rowid won't change if we change query				 2.if you change your query, the rownum number will refer to another row
+  3.which is a unique ID for a row.	   						3.ROWNUM is a consecutive number which applicable 		 
+																for a specific SQL statement only

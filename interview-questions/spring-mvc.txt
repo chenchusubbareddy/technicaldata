@@ -29,11 +29,9 @@ Controller Bean:
 it is request handler component
 Ex: @Controller
 
-
 ModelAndView:
 ------------
-store model data and view name
-
+store model data and view name.
 
 ViewResolver:
 ------------
@@ -103,6 +101,3 @@ PDF & Excel format:
 ------------------
 	pdf:  AbstractPdfView(c)
 	excel:AbstractXLView(c)
-	
-	
-	

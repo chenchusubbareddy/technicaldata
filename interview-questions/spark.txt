@@ -2,6 +2,21 @@ Q)What is Spark ?
 	1.Distributed processing framework.
 	2.Apache project donated by AMP lab.
 	3.can be use for Bug data processing,batch processing,stream processing,Data analysis,ML on bigdata,graph processing.
+Q) How to improve performance of Spark?
+	1)kyro serialiation.
+	2)broadcase variable /broad cast join. 
+	3)avoid UDF/UDAF.                               
+	4)DynamicResourceAllocation (spark.dynamicAllocation.enabled ,spark.shuffle.service.enabled ,spark.dynamicAllocation.minExecutors, spark.dynamicAllocation.maxExecutors, spark.dynamicAllocation.initialExecutors)
+	5)use G1GC garbage collector.
+	6)executor tuning.
+	7)partition maintanance / data skew avoid techniques.
+	8)speculative executuon.
+	9)use proper persistant levels.
+	10)Cost based Optimization.
+	11)Right file format and file compression.
+	12)Use mapPartitions() over map()
+	13)Disable DEBUG & INFO Logging.
+ 
 Q) What are rdd features?
 	1.In-memory computations
 	2.distributed data across cluster.
@@ -9,17 +24,17 @@ Q) What are rdd features?
 	4.immutability.
 	5.partitioned.
 	6.different persistance levels.
-	7.parrale processing.
+	7.parralel processing.
 	8.Lazy evalution.
 	
 Q) what are advantages of spark over mapreduce?
 	1)more faster due to in-memory ,lazy evalution
 	2)easy coding
 	3)multiple language support
-	4)batch & real time processing
-	5)Sql support with spark sql module
+	4)batch & real time processing.
+	5)Sql support with spark sql module.
 	6)different file format support.
-	7)can run in any platform( mesos /yarn/kubernates)
+	7)can run in any platform( mesos /yarn/kubernates).
 	8)mechine learning and graphx support.
 	9)In-built optimization technique like catalyst optimizer.
 	
@@ -30,6 +45,7 @@ q) what are limitations of Rdd ?
 	4)cannot handle structure data.
 	5)degrade when lesser memory.
 	6)no runtime stafety.
+	
 Q) RDD vs Dataframe
 		RDD                                      						 Dataframe
 	introduced in 1.0x                          			          introduced in 1.3x
@@ -44,24 +60,9 @@ Q) Dataframe vs Dataset
 	does not provide compile time safety            provide compile tile safety
 	suppport java/python/scala/R					support java/scala
 	slower than dataset								faster than dataframe
-	
-Q) How to improve performance of Spark?
-	1)kyro serialiation 
-	2)broadcase variable /broad cast join  
-	3)avoid UDF/UDAF
-	4)DynamicResourceAllocation (spark.dynamicAllocation.enabled ,spark.shuffle.service.enabled ,spark.dynamicAllocation.minExecutors, spark.dynamicAllocation.maxExecutors, spark.dynamicAllocation.initialExecutors)
-	5)use G1GC garbage collector 
-	6)executor tuning
-	7)partition maintanance / data skew avoid techniques
-	8)speculative executuon
-	9)use proper persistant levels
-	10)Cost based Optimization
-	11)Right file format and file compression.
-	12)Use mapPartitions() over map()
-	13)Disable DEBUG & INFO Logging.
- 
+
 Q) What are Transfermations and actions ?
-	Transfermations :map (),filter(),flatMap(),mapParttionsWithIndex(),sample(),union(),intersection(),distinct(),groupByKey(),
+	Transfermations :map(),filter(),flatMap(),mapParttionsWithIndex(),sample(),union(),intersection(),distinct(),groupByKey(),
 					reduceByKey(),aggregateByKey(),sortByKey(),join(),cogroup(),cartesian(),pipe(),coalesce(),repartition(),repartitionAndSortWithinPartitions()
 	Actions:reduce(),collect(),count(),first(),take(),takeSample(),takeOrdered(),saveAsTextFile(),saveAsSequenceFile(),saveAsObjectFile(),countByKey(),foreach()
 				
@@ -73,10 +74,7 @@ Q)what is difference between Narrow trasformation vs Wide Transfermations ?
 	WIDE TRASFORMATION:
 							i)ALl the elements required to computations in  many partiton.
 							ii) this results in shuffling of data across the nodes.
-							iii) resultsof groupbykey,reducebykey.
-							
-							
-							
+							iii) resultsof groupbykey,reducebykey.						
 
 Q)Spark submit command ?
 	Syntax: spark-submit  --class <main-class>  --master <master-url>   --deploy-mode <deploy-mode>  --conf <key>=<value>  ... # other options   <application-jar>  [application-arguments]
@@ -218,6 +216,37 @@ Q) Exceution flow in spark ?
 	2. Once the DAG is created, the driver divides this DAG into a number of stages. 
 	3.These stages are then divided into smaller tasks and all the tasks are given to the executors for execution.
 	
+Q)what is partiton in spark ?
+	A partition in spark is an atomic chunk of data (a logical division of data) stored on a node in the cluster.
+Q) How add auto increment coulmn to dataframe/dataset?
+	Dataset<Row> dataFrame1 = dataFrame0.withColumn("index",functions.monotonically_increasing_id());
+Q)how to register udf in spark ?
+	val timesTwoUDF = spark.udf.register("timesTwo", (x: Int) => x * 2)
+	spark.sql("SELECT timesTwo(1)").show
+Q)What is spark architecture ?
+	1.Spark follows the master-slave architecture. Its cluster consists of a single master and multiple slaves.
 	
+	DRIVER:
+	--------
+	1.Driver Program is a process that runs the main() function of the application creates the SparkContext object.
+		a.It acquires executors on nodes in the cluster
+		b.it sends your application code to the executors.
+	Cluster Manager :
+	----------------
+	1.The role of the cluster manager is to allocate resources across applications.
+	2.cluster managers such as Hadoop YARN, Apache Mesos and Standalone Scheduler.
 	
+	Worker Node:
+	-----------
+	1.The worker node is a slave node.
+	2.its role is to run the application code in the cluster.
 	
+	Executor:
+	--------
+	1.An executor is a process launched for an application on a worker node.
+	2.It runs tasks and keeps data in memory or disk storage across them.
+	3.It read and write data to the external sources.
+	
+	Task:
+	-----
+	A unit of work that will be sent to one executor.

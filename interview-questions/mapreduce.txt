@@ -5,8 +5,8 @@ i)TextInputFormat is default input format.
 5)Quicksort is sorting algarithm.
 6)Key Based Sorting will happen in MR
 7) Default record Seperator in TextOutputFormat is  '\t'
-8) hadoop follows first sorting then shuffle
-10) No need to define shuffle and sort in jib class ,Framework wil take care.
+8) hadoop follows first sorting then shuffle.
+10) No need to define shuffle and sort in job class ,Framework wil take care.
 12)in Mapreduce mappers are mandatory ,reducer  is not a mandatory.
 13) If reducer is not there then shuffle and sort is not going to cal, in this case mapper o/p is final.
 14) Record means key and value.
@@ -37,7 +37,7 @@ Compression in Mapreduce:
 			-> by default is NONE
 			-> best is Block
  Copression codecs:
-				DefaultCoded  =>  .deflate   ( by default is default codec)
+				DefaultCodec  =>  .deflate   ( by default is default codec)
 				GZIPCodec => .gz
 				BZIPCodec => .snappy   
 				SnappyCodec => .codecs     ( best codec)
@@ -53,7 +53,7 @@ Properties to add for compression in mapred-site.xml:
 
 
 Q)Mapreduce Performance improvements ?
-	1)combiner
+	1.combiner
 	2.Distributed cache 
 	3.Speculative execution 
 	4.partitions 
@@ -61,3 +61,6 @@ Q)Mapreduce Performance improvements ?
 	6.Minimizing the Disk Spill by Compressing Map Output  (LZO Compression)
 	7.Re-usage of Writables
 	8.map side joins
+	
+Q) What is mapreduce flow ?
+  File  -> InputFormat -> InputSplit -> RecordReader ->  Mapper -> Combiner -> Partitioner -> shuffle & Sort -> Reducer-> ouputFormat -> output folder

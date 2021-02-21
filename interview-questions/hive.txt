@@ -47,7 +47,7 @@ Q) Different data types in Hive?
 		Primitive Type: Int,float,double,long,boolean,varchar,char
 		Complex data types: Array,Map,Struct,Union Type.
 		
-	Single table with all Datatypes
+	Single table with all posibilities
 	---------------------------------
 	Create table if not exist student_data
 	(name String comment 'student name',
@@ -87,22 +87,19 @@ Q) Explain Hive Partition ?
 		
 	Dynamic Partiton:
 	 The values of partitioned columns exist within the table. So, it is not required to pass the values of partitioned columns manually.
-		i) STEICT MODE : Atleast one static partition column
+		i)STRICT MODE : Atleast one static partition column
 	   ii)NON-STATIC MODE no Condition on Partition Column.
 	**) We can use load statement only all partition conditions are static (but data always from file only)
 	**) we can use insert statatement with out any condition on partition columns(but data always from 'table' only)
 	**) order of partition column.
 		 -> all partition columns are static work (s1,s2,s3,s4)
-		 -> all Partition columns are dynamic(d,d2,d3,d4,d5,d6)
+		 -> all Partition columns are dynamic(d1,d2,d3,d4,d5,d6)
 		 -> first few columns are static the remaining all are dynamic will work.(s1,s2,s3,s4,d1,d2,d3)
 		 -> first few partition columns are dynamic then remaining all are static will not work (d1,d2,d3,d4,s1,s2,s3)
 	
 		SET hive.exec.dynamic.partition=true;
 		SET hive.exec.dynamic.partition.mode=nonstrict
-		CREATE TABLE IF NOT EXIST USER_BUCKET_TABLE (name String,id int) CLUSTRED BY (id) INTO 4 BUCKETS;
-		CREATE TABLE IF NOT EXIST USER_BUCKET_TABLE (name String,id int) CLUSTRED BY (id) SORTED BY (id desc) INTO 4 BUCKETS;
-		
-		INSERT OVERWRITE TABLE USER1 SELECT * FROM USERS;
+		INSERT OVERWRITE TABLE student_partition PARTITION(course, year) select * from student;
 		
 	
 Q)Explain Bucketization ?
@@ -199,3 +196,13 @@ Q) Partition with Bucketing example?
 	CREATE TABLE products ( product_id string, brand string, size string, discount float, price float )
 	PARTITIONED BY (gender string,  category string,color string)
 	CLUSTERED BY (price) INTO 50 BUCKETS;
+Q) What is vectorization in hive?
+	It’s a query optimization technique. Instead of processing multiple rows, Vectorization allows to process a batch of rows as a unit.
+	Consequently it can optimize query performance. The file must be stored in ORC format to enable this Vectorization.
+	It’s disabled by default, but enable this property by run this command.
+	set hive.vectorized.execution.enabled=true;
+Q)How to add partition  to existing table ?
+	ALTER TABLE Transaction ADD PARTITION (Day=date '2019-11-22')  LOCATION '/apps/bank/cust_transactions/00';
+Q) Show table create statement for created table?
+	Show Create Table tablename
+	

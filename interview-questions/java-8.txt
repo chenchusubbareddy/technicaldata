@@ -18,4 +18,35 @@ Q) Java 8 Stream Intermediate And Terminal Operations ?
 	 
 	 
 	 
-	 
+Q) Hashmap updates in java8 ?
+	1.before Java 8, the performance of the HashMap was poor due to the hash collision, 
+	2. the retrieval time of elements from HashMap increases from O(1) to O(n)
+	3.Java 8 hash elements use balanced trees instead of linked lists after a certain threshold is reached
+	4.HashMap starts with storing Entry objects in a linked list but after the number of items in a hash becomes larger than a certain threshold.
+		The hash will change from using a linked list to a balanced tree
+Q)What is lambda expression?
+	Lambda expression is anonymous function which have set of parameters and a lambda (->) and a function body .You can call it function without name.
+Q)What are functional interfaces?
+	Functional interfaces are those interfaces which can have only one abstract method.It can have static method, default methods or can override Object’s class methods.
+	There are many functional interfaces already present in java such as Comparable, Runnable.
+Q)What is Optional? Why and how can you use it?
+	Java 8 has introduced new class Called Optional. This class is basically introduced to avoid NullPointerException in java.
+	Optional class encapsulates optional value which is either present or not.
+	It is a wrapper around object and can be use to avoid NullPointerExceptions.
+
+Q)What is the difference between Predicate and Function?
+	Both are functional interfaces.
+	Predicate<T> is single argument function and either it returns true or false.This can be used as the assignment target for a lambda expression or method reference.
+	Function<T,R> is also single argument function but it returns an Object.Here T denotes type of input to the function and R denotes type of Result.
+Q) Are you aware of Date and Time API introduced in Java 8? What the issues with Old Date and time API?
+	Issues with old Date and TIme API:
+	Thread Safety: You might be already aware that java.util.Date is mutable and not thread safe. Even java.text.SimpleDateFormat is also not Thread-Safe. New Java 8 date and time APIs are thread safe.
+	Performance: Java 8 ‘s new APIs are better in performance than old Java APIs.
+	More Readable: Old APIs such Calendar and Date are poorly designed and hard to understand. Java 8 Date and Time APIs are easy to understand and comply with ISO standards.
+	LocalDate, LocalTime, and LocalDateTime are the Core API classes for Java 8.
+Q) Do we have PermGen in Java 8?
+	Until Java 7, JVM used an area called PermGen to store classes. It got removed in Java 8 and replaced by MetaSpace.
+	Major advantage of MetaSpace over permgen:
+	PermGen was fixed in term of mazimum size and can not grow dynamically but Metaspace can grow dynamically and do not have any size constraint.
+
+

@@ -1,19 +1,20 @@
 Micro services:
 --------------
+Q)What is Monolithic Architecture? 
+	Monolithic architecture is like a big container in which all the software components of an application are clubbed inside a single package.
 Q) Drawbacks of monolythic application?
-	1)performance issue with  huge database
-	2)Continuos deployment not possible
-	3)adapt new technologies not possible
-	4)over load ide and overload webcontainer
-	5)excepton propagation  not proper
-	6)code resuable not there 
+	1)performance issue with  huge database.
+	2)Continuos deployment not possible.
+	3)adapt new technologies not possible.
+	4)over load ide and overload webcontainer.
+	5)excepton propagation  not proper.
+	6)code resuable not there. 
 
 Q)What is microserive archetecute?
    Micro service is architecutural way to design our application uniquely with  several small modules developed individually,package individually and deployed individually ,
    in individual process
- 
 	i)Highly maintainable and testable.
-	ii)Loosely coupled
+	ii)Loosely coupled.
 	iii)Independently deployable
 	iv)Organized around business capabilities
 	v)Owned by a small team.
@@ -58,9 +59,15 @@ Q)Microservices components
 	feign clent -> declarative restclient
 	
 Q)what is cloud native services ?
-	cloud enabled application is anapplication running on cloud where hardware maintainance is reposibility of cloud provider
+	cloud enabled application is an application running on cloud where hardware maintainance is reponsibility of cloud provider.
 	cloud native application is an application running on cloud and taking adantages and facilitiees of cloud.
 	To make spring microservices as cloud native we use spring cloud components and spring cloud netflix components.
 Q) Best practices in microservices ?
     1) dockerize
 	2)different databases per each services
+Q) What is RESTful?
+	Representational State Transfer (REST)/RESTful web services is an architectural style that helps computer systems to communicate over the internet. 
+	These web services make microservices easier to understand and implement.
+Q)What is Spring Cloud?
+	Answer: While building a distributed system, there are a few problems that are encountered. They are Configuration Management, Service Discovery, Circuit breakers,
+	and distributed sessions. Spring Boot is a collection of tools that provides solutions to such commonly encountered problems.

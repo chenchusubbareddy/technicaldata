@@ -2,7 +2,7 @@ Different file formats:
 
 Property    			AVRO   													Parquet									ORC
 Schema Evolution   		Most efficient,as the schema     		schema evolution is expensive as			Schema evolution hereis limited 
-						is stores as json with the file		    it needs to be readand merged across 		adding new columns and few cases
+						is stores as json with the file		    it needs to be read and merged across 		adding new columns and few cases
 																al the parquet files						of column type-widening
 															
 Compression 			less efficient							Best with snappy							Best with ZLIIB
@@ -44,7 +44,6 @@ Sequence file:
 4.sequence files are splittable.
 5.Limited schema evolution (New  fields can only appended to existing fields while old fileds can never be deleted)
 
-
 Parquet:
 --------
 1.It is columnar format,similar to RC/ORC .Parquet store nested data structure in flat columnar format.
@@ -52,14 +51,7 @@ Parquet:
 3.support compression mostly with snapy algarithm.
 4.parquet file conditinaly spilttable 
 5.limited schema evolution (new fields can only be appended  to existing  fields  while  old fields  can never be deleted)
-
-1.Column oriented storage formats
-2.Schema is store in the footer of file
-3.Due to merging of schema across multiple files ,schema evolution is little expensive
-4.ideal for read heavy data operations.
-5.Excellent for selected column data consumption and processing.
-6.Works excellent with spark as there is vectorized reader for parquet.
-  consumption and processing.
+6.Schema is store in the footer of file
  
 RC file:
 -------
@@ -74,9 +66,9 @@ ORC:
 1.Column oriented storage format. (instead of just storing rows of data adjecent to one another we also store column values adjacent to each other)
 2.better version of RC file.
 3.was developed for faster reads but  with a compromise with write performace.(Better than RC file)
-4.provide significant  block  compression,can be compressed with high compression  ratios.(Better than RC file)
+4.provide significant block compression,can be compressed with high compression ratios.(Better than RC file)
 5.ORC is splittable.
-6.mainly designed for  faster read so no schema evolution.
+6.mainly designed for faster read so no schema evolution.
 7.Schema is store in the footer of file.
 8.Schema evolution is limited to adding new columns.
 9.ideal for read heavy data operations.
@@ -110,7 +102,7 @@ Q) Difference between CAT and Text ?
 			2.text comads will work for .deflate,.gz,.bz2 files also
 
 Distributed cache :
-	 1.Distributed cache capacity is 10 gbby defaulte.
+	 1.Distributed cache capacity is 10 gb by defaulte.
 	 2.will use for small files (100mb to 200 mb)
 	 3.follows FIFO
 	 4.if Data is large we will end uo with outofmemory issue.
@@ -149,3 +141,11 @@ Hadoop Schulars:
 Q) How to start/stop job histroy server ?
 	$mr-jobhistory-daemon.sh  start/stop  historyserver
 	Default port :19888
+Q)What is  block in hdfs ?
+	Hadoop HDFS split large files into small chunks known as Blocks.
+	Block is the physical representation of data.
+	HDFS stores each file as blocks.
+	
+Q)difference between block size split size ?
+	Split is a logical division of the input data while block is a physical division of data. HDFS default block size is default split size if input split is not specified.
+	Split is user defined and user can control split size in his Map/Reduce program

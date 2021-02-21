@@ -10,7 +10,7 @@ drawback of jdbc:
 Hibernate features:
 ------------------
 1.HQL  
-	a. perform curd operation
+	a.Perform curd operation.
 	b.database independent.
 	c.hql look like sql.
 	d.hql contails variable names and class names.
@@ -30,22 +30,23 @@ Hibernate features:
 q) can we define more than one class mapping in single hbm file?
 	yes .repeat<class> tag
 		<hibernate-mapping>
-		 <class name="student" table"student">
-		 </class>
-		 <class name="Employee" table"emp">
-		 </class>
+			<class name="student" table"student">
+			</class>
+			<class name="Employee" table"emp">
+			</class>
+		</hibernate-mapping>
 
 Q) How many mapping files can be created in project?
    no fixed number .generally one hbm file for classes for onemodule which needs db support.
    
- Q) how many configuration files are created in project?
+Q) how many configuration files are created in project?
    it depends on no.of databases used in a project
    
 ==================================================================================================================================================================================
 Configuration file:
 -----------------
  we have to define below details in configuration file:
-		a. connection properties
+		a.Connection properties
 		b.hiberate properties
 		c.mapping properties
 	
@@ -73,8 +74,8 @@ hbm2ddl_auto property:
    c.update ( create if not exist and use same if exist)
    d.create-drop (first create and drop after work completes)
    
- Q) difference between load and get methods ?
-	1. load() -> load the object lazily ,if not found throw ObjectNotFound exception
+Q) difference between load and get methods ?
+	1.load() -> load the object lazily ,if not found throw ObjectNotFound exception
 	2.get() -> load the early , if not found return null.
 =================================================================================================================================================================================
 Object states in hibernate:
@@ -82,8 +83,6 @@ Object states in hibernate:
 1. transient state
 2. persistance state
 3. detached state
-
-
 
 			Transient state 
 					|
@@ -104,10 +103,9 @@ Q) difference beween update and merge ?
 	update() -> session cahce contains same object then throws NONUNIQUEObjetException
 	merge() ->  session cache contains same oject then changes copy and savein db but not throw exception.
 	
-	
 Generator clasess:
 -----------------
-1. assigned (default)
+1.Assigned (default)
 2.increment (maxid +1)
 3.sequence (hibernate_sequence)
 4.hilo  (max_lo+next_hi+next_hi)
@@ -119,7 +117,7 @@ Generator clasess:
 
 Q)what is difference between save() and update() ?
 	both are used to save the object in db.
-	save () -> save the object in dband return id in seriable format. suitable for generator other than assigned.
+	save () -> save the object in db and return id in seriable format. suitable for generator other than assigned.
 	persist() -> store object in db but not return id  if obj. 
    
 Q) when LazyInitializeException occurs?

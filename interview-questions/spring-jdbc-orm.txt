@@ -1,6 +1,6 @@
 Problems in jdbc-api: 
 --------------------
-1. boiler plate code problem like open connection ,statement,process resultset,close connection
+1. boiler plate code problem like open connection ,statement,process resultset,close connection.
 2. jdbc throws checked exceptions need to handle with try-catch
 3. may chance of memmory leak if we for forgot close connection,stmt
 
@@ -21,9 +21,7 @@ queryForObject()
 queryForRowSet()
 execute()
 update()
-
 ================================================================================================================================================================================
-
 Spring ORM:
 -----------
 problems in ORM frameworks:
@@ -36,8 +34,8 @@ Integration spring with hibernate:
 ---------------------------------
 configure bellow two beans 
 	`1.LocalSessionFactoryBean -> it create and return sessionfactory
-			a. DataSource
-			b.mapping resources/annotation classes
+			a.DataSource
+			b.Mapping resources/annotation classes
 			c.hibernate properties
 	2. HibernateTemplate -> it is helper class and take care about opening session,starting tx ,commit txs,close session
 	
