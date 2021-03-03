@@ -27,12 +27,12 @@ Q)How to make own singleton class?
 	3)don't provide setter methods.
 	4)make all mutable fields as final, so it's value can be assigned only once.
 	5)initilze all fields via constructor.
-	6)perform  cloning of objects in the getter methods to return a copy rather than return actual object referenced.
+	6)perform cloning of objects in the getter methods to return a copy rather than return actual object referenced.
 	
 Q) Differece between ArrayList and LinkedList ?
-
+	
 				ArrayList														LinkedList
-	1.it Internaly use dynamic array to store the elements					1.it uses internally  a double LinkedList to store the elements.
+	1.It Internaly use dynamic array to store the elements					1.it uses internally  a double LinkedList to store the elements.
 	2.Manupulation ArrayList is slow because  it internally use and			2.Manupulation of LinkedList is faster than ArrayList
 	  array.if any element removed from array,all bits are shifted			  because it uses a doubly linked list, so no bit shifting
 	  in memory.															  is required in memory.
@@ -76,4 +76,5 @@ Q) Contract between .equals and hashcode ?
    3.r1.hashcode == r2.hashcode is true  ==> r1.equals(r2) is true/false
    4.r1.hashcode()==r2.hashcode() is false => r1.equals(r2)  false
 	
+Q)Detect Loop in LinkedList?
 	

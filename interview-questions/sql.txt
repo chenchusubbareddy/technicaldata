@@ -8,24 +8,24 @@ Sql :
   
 Q) Difference between truncate and Delete ?
 
-		Truncate                     Delete
-		-------						-------
-	1. It is DDL 					1.It is DML command
-	2.Perminant deletion            2.Temparary deletion
-	3.cannot  delete specific 		3.can delete specific
+	Truncate                     		Delete
+	-------								-------
+	1. It is DDL. 					1.It is DML command.
+	2.Perminant deletion.           2.Temparary deletion.
+	3.cannot  delete specific. 		3.can delete specific.
 
 Q) Difference between synonyms and views ?
-	synonyms      											 views
-	--------												-------
-1.cannot to create a synonym based on partial table      1.can create a view based on partial table
-2.we cannot create synonym based  one table				 2. we can create view based on more than one table.
-3.it becomes invalid in  two cases						 3.view become invalid in three cases.
-4.can create synonym based on another synonum            4.we can create view on another view upto maximum 32.
+			synonyms      											 views
+			--------												-------
+	1.cannot to create a synonym based on partial table.      1.can create a view based on partial table
+	2.we cannot create synonym based  one table	.			  2. we can create view based on more than one table.
+	3.it becomes invalid in  two cases.						  3.view become invalid in three cases.
+	4.can create synonym based on another synonum.            4.we can create view on another view upto maximum 32.
 
-Union: This operator returns all the values from the tables excluding duplicate values
-UnionAll: This operator returns all the values from the tables include duplicate values
-Intersection: This return common values from both tables.
-Minus:the values which are present in one table but not available in second table.
+	Union: This operator returns all the values from the tables excluding duplicate values
+	UnionAll: This operator returns all the values from the tables include duplicate values
+	Intersection: This return common values from both tables.
+	Minus:the values which are present in one table but not available in second table.
 
 2nd higest salary:
 ------------------
@@ -43,11 +43,11 @@ Q) Second higest salry in each department?
 
 Analytic Functions:
 -------------------
-To assign  rank numbers to each row or else group of rows wise.
+	To assign  rank numbers to each row or else group of rows wise.
 
-ROW_NUMBER() : To assign Different rank numbers to same value.
-RANK() : To assign same rank number to same value.but is skipping the next sequence rank number in the order.
-DENSE_RANK() : To assign same rank number to same value but is not skipping the next sequence rank number in the order.
+	ROW_NUMBER() : To assign Different rank numbers to same value.
+	RANK() : To assign same rank number to same value.but is skipping the next sequence rank number in the order.
+	DENSE_RANK() : To assign same rank number to same value but is not skipping the next sequence rank number in the order.
 
 	Syntax : ANALYTICAL_FUNCTION_NAME() OVER ([PARTITION BY <COLUMN NAME>] ORDER BY <COLUMN NAME>)
 	SET PAGESIZE 100

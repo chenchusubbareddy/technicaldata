@@ -13,7 +13,7 @@ DispatcherServlet configuration in web.xml:
 		<servlet-name>spring</servlet-name>
 		<url-pattern>*.do</url-pattern>
 	</servlet-mapping>
-	
+
 	
 <servlet-name>-servlet.xml  -> inside WEB-INF
 
@@ -36,7 +36,7 @@ store model data and view name.
 ViewResolver:
 ------------
 helper to the DS to identify appropriate view
-1.InterresourceViewResolver
+1.InternalresourceViewResolver
 2.ResourceBundleViewResolver
 3.XmlViewResolver
 4.TilesViewResolver

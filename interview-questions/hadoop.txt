@@ -1,7 +1,7 @@
 Different file formats:
 
 Property    			AVRO   													Parquet									ORC
-Schema Evolution   		Most efficient,as the schema     		schema evolution is expensive as			Schema evolution hereis limited 
+Schema Evolution   		Most efficient,as the schema     		schema evolution is expensive as			Schema evolution here is limited 
 						is stores as json with the file		    it needs to be read and merged across 		adding new columns and few cases
 																al the parquet files						of column type-widening
 															
@@ -20,9 +20,9 @@ Engines					Kafka								      spark 										Hive
 
 Text files (CSV & TSV):
 ----------------------
-1.Eachline is a record/data and lines are terminated by a new line character(\n)
-2.Good write performance but slow reads
-3.Do not support block in-built compressions,explicitly we can use compresiion
+1.Each line is a record/data and lines are terminated by a new line character(\n).
+2.Good write performance but slow reads.
+3.Do not support block in-built compressions,explicitly we can use compresiion.
 4.Text file are inherently splittable on \n character.
 5.Limited schema evolution(new fields can only be appended to existing fields while old fields can never be deleted
 
@@ -49,17 +49,17 @@ Parquet:
 1.It is columnar format,similar to RC/ORC .Parquet store nested data structure in flat columnar format.
 2.Faster reads with slower writes.
 3.support compression mostly with snapy algarithm.
-4.parquet file conditinaly spilttable 
-5.limited schema evolution (new fields can only be appended  to existing  fields  while  old fields  can never be deleted)
-6.Schema is store in the footer of file
+4.parquet file conditinaly spilttable. 
+5.limited schema evolution (new fields can only be appended  to existing  fields  while  old fields  can never be deleted).
+6.Schema is store in the footer of file.
  
 RC file:
 -------
 1.these are flat files consisting of binary key/value pairs ,and it shares much similarity with sequence file
 2.Was developed for faster reads  but with a compromise with write performance.
 3.provides significant block compression,can be compressed with high  compression ratios.
-4.Rcfiles are splittable .
-5.no schema evolotion
+4.Rc files are splittable.
+5.no schema evolotion.
 
 ORC:
 ----
@@ -99,7 +99,7 @@ Q) Difference between CAT and Text ?
 			2.text command will work for .gz file only.
 	hadoop 2.x: 
 			1.both commands will work same for  text file
-			2.text comads will work for .deflate,.gz,.bz2 files also
+			2.text commands will work for .deflate,.gz,.bz2 files also
 
 Distributed cache :
 	 1.Distributed cache capacity is 10 gb by defaulte.
@@ -130,6 +130,7 @@ SPLIT_SIZE=min(MAX_SPLIT_SIZE,max(BLOCK_SIZE,MIN_SPLIT_SIZE))
 		 
 -> block size is physical ,split_size is logical
 -> default record reader is LineRecordReader
+
 Q) How frequently secondary name node will pull the data from namenode?
 	Either 1 hour / after one minllion txs
 

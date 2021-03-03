@@ -3,22 +3,22 @@ Q)What is Spark ?
 	2.Apache project donated by AMP lab.
 	3.can be use for Bug data processing,batch processing,stream processing,Data analysis,ML on bigdata,graph processing.
 Q) How to improve performance of Spark?
-	1)kyro serialiation.
-	2)broadcase variable /broad cast join. 
-	3)avoid UDF/UDAF.                               
-	4)DynamicResourceAllocation (spark.dynamicAllocation.enabled ,spark.shuffle.service.enabled ,spark.dynamicAllocation.minExecutors, spark.dynamicAllocation.maxExecutors, spark.dynamicAllocation.initialExecutors)
-	5)use G1GC garbage collector.
-	6)executor tuning.
-	7)partition maintanance / data skew avoid techniques.
-	8)speculative executuon.
-	9)use proper persistant levels.
-	10)Cost based Optimization.
-	11)Right file format and file compression.
-	12)Use mapPartitions() over map()
-	13)Disable DEBUG & INFO Logging.
+	1)kyro serialiation. (The only reason Kryo is not the default is because of the custom registration requirement)
+	2)broadcase variable /broad cast join.                              
+	3)DynamicResourceAllocation (spark.dynamicAllocation.enabled ,spark.shuffle.service.enabled ,spark.dynamicAllocation.minExecutors, spark.dynamicAllocation.maxExecutors, spark.dynamicAllocation.initialExecutors)
+	4)executor tuning.
+	5)use proper persistant levels.
+	6)speculative execution.
+	7)Cost based Optimization.
+	8)Right file format and file compression.
+	9)Use mapPartitions() over map()
+	10)Disable DEBUG & INFO Logging.
+	11)avoid UDF/UDAF.
+	12)use G1GC garbage collector.
+	13)partition maintanance / data skew avoid techniques.
  
 Q) What are rdd features?
-	1.In-memory computations
+	1.In-memory computations.
 	2.distributed data across cluster.
 	3.fault tolerance.
 	4.immutability.
@@ -28,9 +28,9 @@ Q) What are rdd features?
 	8.Lazy evalution.
 	
 Q) what are advantages of spark over mapreduce?
-	1)more faster due to in-memory ,lazy evalution
-	2)easy coding
-	3)multiple language support
+	1)more faster due to in-memory ,lazy evalution.
+	2)easy coding.
+	3)multiple language support.
 	4)batch & real time processing.
 	5)Sql support with spark sql module.
 	6)different file format support.
@@ -74,7 +74,7 @@ Q)what is difference between Narrow trasformation vs Wide Transfermations ?
 	WIDE TRASFORMATION:
 							i)ALl the elements required to computations in  many partiton.
 							ii) this results in shuffling of data across the nodes.
-							iii) resultsof groupbykey,reducebykey.						
+							iii) results of groupbykey,reducebykey.						
 
 Q)Spark submit command ?
 	Syntax: spark-submit  --class <main-class>  --master <master-url>   --deploy-mode <deploy-mode>  --conf <key>=<value>  ... # other options   <application-jar>  [application-arguments]
@@ -87,6 +87,9 @@ Q)Spark submit command ?
 	–executor-memory -> Amount of memory to use for the executor process.
 	–executor-cores -> Number of CPU cores to use for the executor process.
 	–total-executor-cores -> The total number of executor cores to use.
+	
+	
+	
 Q) Difference between client mode and cluster mode?
 
 	cluster : In cluster mode, the driver runs on one of the worker nodes, and this node shows as a driver on the Spark Web UI of your application. 
@@ -95,10 +98,10 @@ Q) Difference between client mode and cluster mode?
 			 Note that in client mode only the driver runs locally and all other executors run on different nodes on the cluster
 Q) Persistance levels in spark?
      1.persistance levels define - where (on memory/disk)  and how (serialized/deserialzed) data would be stored.
-	 2.Apache spark automatically persist the intermediatery data from various shuffle operations depending on persistance levelconfigured.
-	 3.it is often suggested call persist() method on the rdd incase of reuse, if in case system not persisted automatically.
-	 4.spark has various persistance levels to store  rdd on disk on in memory or as  a combination of both
-		MEMORY_ONLY : store RDD as deserialized java objects in the jvm,if rdd does not fit in memory ,some partitions willlnot cacheed and will
+	 2.Apache spark automatically persist the intermediatery data from various shuffle operations depending on persistance level configured.
+	 3.it is often suggested call persist() method on the rdd in case of reuse, if in case system not persisted automatically.
+	 4.spark has various persistance levels to store  rdd on disk on in memory or as  a combination of both.
+		MEMORY_ONLY : store RDD as deserialized java objects in the jvm,if rdd does not fit in memory ,some partitions will not cacheed and will
 					  be re computed in the fly each time they are needed.this is default level.
 		MEMORY_AND_DISK: store RDD as deserialized java objects in the JVM.if the RDD does not fit in memory ,store the partitiions on disk
 						 and read them from disk when they are needed.
@@ -111,7 +114,7 @@ Q) Persistance levels in spark?
 			
 Q) DAG in SPARK?
 			DAG in spark is set of vertices and Edges ,where vertices represent  the RDD and the edges represent the operations applied on RDD.
-			In spark DAG ,every edge direct from earlier to later in the sequence.on calling of action ,the create DAG submits to/examples
+			In spark DAG ,every edge direct from earlier to later in the sequence.on calling of action ,the create DAG submits to
 			DAG schedular which further splits the graph into the stages of the task based on the demarcation of shuffling,new stage is created
 			based on the data shuffling requirements.
 
@@ -123,22 +126,18 @@ Q)How to define own schema  in dataframe?
 			Dataset<Row> peopleDataFrame = spark.createDataFrame(rowRDD, schema);
 			spark.read.schema(schema).csv("filelocation")
 		
-		
-		
 Q)What is Catalyst Optimizer in spark ?
 
-	Query  -> Un-resolved logical-plan -> Logical plan->OPtimized logical plan -> physical plan(multiple) -> cob model ->select physical plan -> rdd
-
+	Query  -> Un-resolved logical-plan -> Logical plan -> OPtimized logical plan -> physical plan(multiple) -> cob model ->select physical plan -> rdd
 
 Q)Memory Management in SPark?
     Executor Memory devided into 
-			1.Reserved memory (300 MB)
+			1.Reserved memory (300 MB) ( This memory stores sparks internal objects)
 			2.user memory   ( upto user how to use this eg:map,array)
 			3.storage memory (rdd/df cache or broadcast stored)(if this memory is full then spill to disk)
 			4.Execution memory (temparary is stored in Executory , can spill on disk)
 	storage memory and execution memory are shared memory (spark.memory.fraction)
-		
-		
+	
 Q) How to read multi json files?	
 		if json is in sinlge line :
 			spark.read.json("location")
@@ -163,10 +162,14 @@ Q)Joins in DataSets ?
 	
     empDF.join(deptDF,empDF("emp_dept_id") ===  deptDF("dept_id"),"full")
     
-   empDF.join(deptDF,empDF("emp_dept_id") ===  deptDF("dept_id"),"fullouter")
+	empDF.join(deptDF,empDF("emp_dept_id") ===  deptDF("dept_id"),"fullouter")
    
     
 Q) Executor Tunig ?
+ 1.leave one core per hadoop/yarn/os deamons
+ 2.for good hdfs throughput (executor-cores = 5)
+ 3.one executor for application master
+ 
    10 nodes 
    16 cores per node => 10* 16 = 160 cores
    64 gb ram per node => 10* 64 = 640gb
@@ -178,7 +181,7 @@ Q) Executor Tunig ?
 	*No of executors = totoal cores / no of cores per executor => 150/5 = 30
 	* one executor for application master (30-1=29 executor)
 	* Number of executors per node = > 30  /10 => 3
-	* Memory oer executor => 64/3 =21 GB
+	* Memory per executor => 64/3 =21 GB
 	* Counting of memory over head = 7% of 21 gb => 3 gb
 			21-3 = 18gb
 	29 executor ,18gb for each executor ,5cores for each executor
@@ -187,7 +190,7 @@ Q) What is SparkContext ?
 	Spark context creates bridge between driver and execution environment(cluster).All the communication happens with sc.
 	With sparkcontext we can set configuration like executors,cores,memory,set job name,master.we can create RDD,Accumulators and broadcast variables.
 
-Q) What is Executor overhead ?
+Q) What is Executor overhead ?	
 		The amount of off-heap memory (in megabytes) to be allocated per executor. 
 		This is memory that accounts for things like VM overheads, interned strings, other native overheads, etc. This tends to grow with the executor size (typically 6-10%)
 		spark.yarn.executor.memoryOverhead	 - max(executorMemory * 0.10, with minimum of 384)
@@ -211,6 +214,7 @@ Q) What is Tungsten?
 	Tungsten performance by focusing on jobs close to bare metal CPU and memory efficiency.
 	Since DataFrame is a column format that contains additional metadata, hence Spark can perform certain optimizations on a query. Before your query is run,
 	a logical plan is created using Catalyst Optimizer and then it’s executed using the Tungsten execution engine.
+	
 Q) Exceution flow in spark ?
 	1.The driver creates the DAG (directed acyclic graph)
 	2. Once the DAG is created, the driver divides this DAG into a number of stages. 
@@ -223,6 +227,7 @@ Q) How add auto increment coulmn to dataframe/dataset?
 Q)how to register udf in spark ?
 	val timesTwoUDF = spark.udf.register("timesTwo", (x: Int) => x * 2)
 	spark.sql("SELECT timesTwo(1)").show
+	
 Q)What is spark architecture ?
 	1.Spark follows the master-slave architecture. Its cluster consists of a single master and multiple slaves.
 	
@@ -250,3 +255,62 @@ Q)What is spark architecture ?
 	Task:
 	-----
 	A unit of work that will be sent to one executor.
+	
+	
+
+Q) Major issue faced in spark ?
+  Batch size is 10 by default ,increased to 10000.
+Q) Datset size generally used in project?
+	100 million records
+Q) What is spark encoders ?
+		The encoder is primary concept in serialization and deserialization (SerDes) framework in Spark SQL. 
+		Encoders translate between JVM objects and Spark’s internal binary format. Spark has built-in encoders which are very advanced. 
+		They generate bytecode to interact with off-heap data
+		EX: Encoder<Tuple2<Integer, String>> encoder2 = Encoders.tuple(Encoders.INT(), Encoders.STRING());
+			List<Tuple2<Integer, String>> data2 = Arrays.asList(new scala.Tuple2(1, "a");
+			Dataset<Tuple2<Integer, String>> ds2 = context.createDataset(data2, encoder2);
+			
+		EX: 
+		    Encoder<Employee> employeeEncoder = Encoders.bean(Employee.class);
+			Dataset<Employee> ds = spark.read().json(jsonPath).as(employeeEncoder);
+	
+Q) if spark job not giving performance ,below are some reasons ?
+	cache,broadcast,executor tuning,batch size read ,skew ness.
+
+Q) Difference between SparkSession  and SparkContext ?
+     SparkSession :when user wants his own set of properties,own set of tables.cluster is shared from resources point of view.
+	 SparkContext:
+Q)Broadcast varibale and Accumulators?
+	A broadcast variable. Broadcast variables allow the programmer to keep a read-only variable cached on each machine rather than shipping a copy of it with tasks.
+	They can be used, for example, to give every node a copy of a large input dataset in an efficient manner.
+	
+	Accumulators are variables that are only “added” to through an associative and commutative operation and can therefore be efficiently supported in parallel. 
+	They can be used to implement counters (as in MapReduce) or sums. Spark natively supports accumulators of numeric types, and programmers can add support for new types.
+	
+Q) Various join strategies in spark ?
+	1. Broad Cast Join :  one dataset is small and another dataset is big.small data set can be broadcasted over to all the executors , join is performed with in executor. 
+		employeesDF.join(broadcast(tmpDepartments),    $"depId" === $"id", "inner").show() //employeesDF.join(broadcast(tmpDepartments), 
+		SELECT /*+ BROADCAST (lf) */ *  FROM range(100) lf, range(1000) rt    WHERE lf.id = rt.id
+		spark.sql.autoBroadcastJoinThreshold =10 mb ( by default ) (-1 for disable)
+		
+	2.Shuffle hash join : It has two phases.
+						 1. Where the data from the join tables are partitioned based on the join key.This phase shuffle data across the partitions.The idea here  is  that if 2 tables
+							have same keys ,they end up in the same partition so that the data  requred  for  joins is  available in  the same partition.
+						 2. the data in each partition performs clasic single node  hash  join algorithm.
+		
+				Shulling is very expensive operation and creating hashtables is expensive wrt memory ,this is not well suited join .
+				spark.sql.join.preferSortMergeJoin=false (should be flase)
+	3.Sort merge join:  if matching join key  are sortable and not eligible for broadcast  join  or shuffle  hash join . it is  very scalable approch and perform better  than other
+						joins most of times.it can be spilt data  on the disk and does not required  the entire  data fit into memory .
+						it has 3 phases.
+						1.SHUFFLE PHASE: the large two tables are repartiioned as per  the join keys across  the partition in the cluster.
+						2.SORT PHASE :Sort the  data with in each partition paralley.
+						3.MERGE PHASE :Join the 2 sorted +partitoned data.This is basically merging  of the dataset  by iterating over the elememtsand  joining rows having same value of join key.
+
+	4.Nested Loop join: every row serch in every row of another dataset.
+	
+Q)Different strategies in partition ?
+		1.Hash partiton : this use hash function  to identify partition number
+		2.Range partiton:Range partitioner devides the data based on a sorted key.
+		Choose right partition avoid data skew ness.
+		

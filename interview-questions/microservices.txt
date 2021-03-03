@@ -20,23 +20,22 @@ Q)What is microserive archetecute?
 	v)Owned by a small team.
 	vi)Each service can be developed with any technology.
 Q) Drawbacks of microservices ?
-  1. Increase troubleshoot challanges.
-  2.Increase delay due to remote calls
-  3.Increase the effort for configuration and other services
-  4.Diffucult to maintain transaction safety
-  5.diffucult to move code between services.
-  6.debugging
+	1.Increase troubleshoot challanges.
+	2.Increase delay due to remote calls
+	3.Increase the effort for configuration and other services
+	4.Diffucult to maintain transaction safety
+	5.diffucult to move code between services.
+	6.debugging
   
 Q)Comparision between monolythic and microservice ?
-
-parameter       				   monolythic												  microservices
------------						-----------------											-----------------
-Developement 					develop in single language								each module can develop in different language
-Testing 						small code change complete testing						Test only that microserivice
-package							entire application as single war/jar					each service as one jar/war
-runtime     					entire application as single process					eaach service as different process
-scalability 					entire application is replicared an multile	services    can scale particular service  on multiple servers														
-code changes 					full rebuild is required								changed service is rebuild
+	parameter       				   monolythic												  microservices
+	-----------						-----------------											-----------------
+	Developement 					develop in single language								each module can develop in different language
+	Testing 						small code change complete testing						Test only that microserivice
+	package							entire application as single war/jar					each service as one jar/war
+	runtime     					entire application as single process					eaach service as different process
+	scalability 					entire application is replicared an multile	services    can scale particular service  on multiple servers														
+	code changes 					full rebuild is required								changed service is rebuild
 
 
 Q) microservices charactristics:
@@ -53,10 +52,10 @@ Q)Microservices components
 	Client side Load balancer -> Ribbon
 	Cricuit Breaker -> Histrix
 	Api gateway -> ZUUL
-	ConfigServer -> Github
+	Config Server -> Github
 	Logging and trace -> slueth and zipkin
 	metrics UI -> admin
-	feign clent -> declarative restclient
+	feign clent -> declarative rest client
 	
 Q)what is cloud native services ?
 	cloud enabled application is an application running on cloud where hardware maintainance is reponsibility of cloud provider.
@@ -64,7 +63,7 @@ Q)what is cloud native services ?
 	To make spring microservices as cloud native we use spring cloud components and spring cloud netflix components.
 Q) Best practices in microservices ?
     1) dockerize
-	2)different databases per each services
+	2) different databases per each services
 Q) What is RESTful?
 	Representational State Transfer (REST)/RESTful web services is an architectural style that helps computer systems to communicate over the internet. 
 	These web services make microservices easier to understand and implement.

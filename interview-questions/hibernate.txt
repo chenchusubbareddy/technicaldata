@@ -1,11 +1,11 @@
 drawback of jdbc:
 -----------------
-1.sql queries wrt database.if database changes then modify queries also
-2.all exceptions are checked and should handle with try-catch
-3.table structre modified then modify the query in all places
-4.resultset is not seriable cannot trasfer data over n/w
-5.rowset not suported by all drivers
-6.connection,stmt closing in compulsary ,otherwise memeory leaks issue will occurs.
+	1.sql queries wrt database.if database changes then modify queries also.
+	2.all exceptions are checked and should handle with try-catch.
+	3.table structre modified then modify the query in all places.
+	4.resultset is not seriable cannot trasfer data over n/w.
+	5.rowset not suported by all drivers.
+	6.connection,stmt closing in compulsary ,otherwise memeory leaks issue will occurs.
 
 Hibernate features:
 ------------------
@@ -15,7 +15,7 @@ Hibernate features:
 	c.hql look like sql.
 	d.hql contails variable names and class names.
 2.un checked exceptions
-	a. all are unchecked in hibernate.
+	a.all are unchecked in hibernate.
 3.Caching
 	a.two levels of cache.
 4.Criteria Api
@@ -26,7 +26,7 @@ Hibernate features:
 	a.Optimistic locking
 	b.pessimistic locking
 7.Connection poling
-=============================================================================================
+==========================================================================================================================================================================================
 q) can we define more than one class mapping in single hbm file?
 	yes .repeat<class> tag
 		<hibernate-mapping>

@@ -1,23 +1,18 @@
-
-1. Elements of jsp  ----> a. Scripting elements ----> 1. Scriptlet <%  %>    2. Expression <%= %>  3.declarative <%! %>
-						  b.Directive Elements  ----> 1. include 
-													  2. page   --> 1.import 2.session 3.isThreadSafe 4.error page 5.content type 6.buffer  7. autoflush 8.language 9.info 10.extend ,11.isELignored
-													  3.taglib 
-						 c. action elements -------> <jsp:forward> ,<jsp:include> , <jsp:plugin> <jsp:usebean> ,<jsp:setProperty> ,<jsp:getProperty> ,<jsp:param>,<jsp:params>,<jsp:fallback>
-		
-										
-										
-attrubutes in jsp:
------------------
+1. Elements of jsp----> a. Scripting elements ----> 1. Scriptlet <%  %>    2. Expression <%= %>  3.declarative <%! %>
+						b.Directive Elements  ----> 1. include 
+												    2. page --> 1.import 2.session 3.isThreadSafe 4.error page 5.content type 6.buffer  7. autoflush 8.language 9.info 10.extend ,11.isELignored
+												    3.taglib 
+						c. action elements -------> <jsp:forward> ,<jsp:include> , <jsp:plugin> <jsp:usebean> ,<jsp:setProperty> ,<jsp:getProperty> ,<jsp:param>,<jsp:params>,<jsp:fallback>
+																						
+Attrubutes in jsp:
+------------------
 1.page 2.request  3.session  4.appliation
 
 EL implicit objects:
--------------------
-1.page scope  2.resuest scope 3.session scope  4.application scope  5.param  6.param values   7.coockies  8.pagecontext
+--------------------
+1.page scope  2.request scope 3.session scope  4.application scope  5.param  6.param values   7.coockies  8.pagecontext
 
 jsp implicit objects:
---------------------
+---------------------
 1.request 2.response  3.session 4.out 5.exception 6. config 7.application  8.page 9.pagecontext 
-
-
 

@@ -6,48 +6,55 @@ Q)What is spring boot?
 
 Features:
 --------
-1.Spring Boot makes it easy to create stand-alone, production-grade Spring based Applications that you can "just run".
-2.dev tools (spring-boot-devtools)
-3.Need minimal Spring configuration.
-3.In build containers Embed Tomcat, Jetty or Undertow directly (no need to deploy WAR files).
-4.Provide opinionated 'starter' dependencies to simplify your build configuration and depend management.
-6.Provide production-ready features such as metrics, health checks, and externalized configuration. (spring-boot-starter-actuator)
-7.no requirement for XML configuration.
-8.profiling (manage application mode like dev,qa,prod)
-9.Microservices design support.
-
+	1.Spring Boot makes it easy to create stand-alone, production-grade Spring based Applications that you can "just run".
+	2.dev tools (spring-boot-devtools).
+	3.Need minimal Spring configuration.
+	4.In build containers Embed Tomcat, Jetty or Undertow directly (no need to deploy WAR files).
+	5.Provide opinionated 'starter' dependencies to simplify your build configuration and depend management.
+	6.Provide production-ready features such as metrics, health checks, and externalized configuration. (spring-boot-starter-actuator)
+	7.no requirement for XML configuration.
+	8.profiling (manage application mode like dev,qa,prod).
+	9.Microservices design support.
 
 Q) Spring boot 2 new features?
-	1.removed java 7 support ,min java8 
-	2.builded on top of Spring framework 5.0 
-	3.Tomcat minimum supported version is 8.5,jetty 9.4 
+	1.Removed java 7 support ,min java8. 
+	2.builded on top of Spring framework 5.0. 
+	3.Tomcat minimum supported version is 8.5,jetty 9.4. 
 	4.default connection pool has changed from Tomcat to HikariCP.
-	5.Hibernate minimum supported version is 5.2
-	6.Gradle minimum supported version is 3.4
-	7.Quartz schedular support ( spring-boot-starter-quartz)
-	8.HTTP/2 Support
-	9.junit5 support
+	5.Hibernate minimum supported version is 5.2.
+	6.Gradle minimum supported version is 3.4.
+	7.Quartz schedular support ( spring-boot-starter-quartz).
+	8.HTTP/2 Support.
+	9.junit5 support.
 
 Q) what is use of @SpringBootApplication anotation ?
-  1.this annotation equalant to @Configuration,@EnableAutoConfiguration ,@Component Scan 
+	1.this annotation equalant to @Configuration,@EnableAutoConfiguration ,@Component Scan 
   
 Spring boot Actuator:
 --------------------
 	1.monitor and manage your application when you push it to production
-	2.it is used to access current state of application in prod envirinment.
+	2.it is used to access current state of application in prod environment.
 	3.provides rest end points which you can simply use and check vaious metrics.
 	4.To enable the features is to add a dependency on the spring-boot-starter-actuator
 			Endpoints: 
 			1.bean 2.caches 3.health 4.info 5.loggers 6.sessions 7. shutdown 8.threaddump
 	5. To enlabe/disable particular end point  : management.endpoint.shutdown.enabled=true
+	
+Q) How to disable autoconfiguration?
+	1.@EnableAutoConfiguration(exclude={DataSourceAutoConfiguration.class})   -in Configuration class
+	2.spring.autoconfigure.exclude in properties file
+Q) How to check which profile is active ??
+	@Autowired
+    private org.springframework.core.env.Environment environment;
+	 String[] activeProfiles = environment.getActiveProfiles();  
 
 spring boot jpa respositiry hierarichy:
 --------------------------------------
-Repository
-CurdRepository
-PagingAndSortingRepository
-JpaReposotiry
-OurOwnRepository
+	Repository
+	CurdRepository
+	PagingAndSortingRepository
+	JpaReposotiry
+	OurOwnRepository
 
 Spring boot annotations:
 -----------------------
@@ -61,25 +68,25 @@ Spring boot annotations:
 	@ConditionalExpression
 	@Conditional
 
+
 Response Http Status code:
 -------------------------
-1** information  : 100 Continue ,101 Switching Protocol
-2** success : 200 OK,201 Created,202 Accepted,204 No Content
-3** redirect : 300 Multiple Choice,301 Moved perminantly,302 Found
-4** client side error :400 Bad Request,403 Forbidden,404 Not Found,405 Method Not Allowed,408 Request Timeout
-5** server side error :500 Internal Server Error,501 Not Implemented,502 Bad Gateway,504 Gateway Timeout
-
+	1** information  : 100 Continue ,101 Switching Protocol
+	2** success : 200 OK,201 Created,202 Accepted,204 No Content
+	3** redirect : 300 Multiple Choice,301 Moved perminantly,302 Found
+	4** client side error :400 Bad Request,403 Forbidden,404 Not Found,405 Method Not Allowed,408 Request Timeout
+	5** server side error :500 Internal Server Error,501 Not Implemented,502 Bad Gateway,504 Gateway Timeout
 
 Connecting multiple Datasources:
 --------------------------------
-spring boot data jpa by default supports  connecting with one daabase,database connection configuration (auto configuration) is given by spring boot only.
-we need to pass inputs using either propeties or yml like driver class,username ,password,show_sql,ddl_auto..
+	spring boot data jpa by default supports  connecting with one daabase,database connection configuration (auto configuration) is given by spring boot only.
+	we need to pass inputs using either propeties or yml like driver class,username ,password,show_sql,ddl_auto..
 
-if we want connect to multiple databases ,by default there is support in spring boot.
- we need to do  define below objects(beans) in order using  java configuration style.
-	1.Datasources
-	2.EntityManagerFactory
-	3.TransactionManager
+	if we want connect to multiple databases ,by default there is support in spring boot.
+	we need to do  define below objects(beans) in order using  java configuration style.
+		1.Datasources
+		2.EntityManagerFactory
+		3.TransactionManager
 
 DB#1 - postgressDb
 cmd>psql -U postgressDb

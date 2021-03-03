@@ -2,16 +2,16 @@ Q)Difference between bucketing and partition ?
 
 Partitioning:
   pros:
-	a)distribute load  load hoizontally.
+	a)distribute load load hoizontally.
 	b)In partition faster execution of queries with the low volume of data takes place.
   Cons:
-	a)There is the possibility of too many small partition creations- too many directories.
+	a)There is the possibility of too many small partition creations - too many directories.
 	b)Partition is effective for low volume data.
 	c)There is no need for searching entire table column for a single record.
 
 Bucketing:
      Pros:
-	    a)It provides faster query response like portioning
+	    a)It provides faster query response like partioning.
 		b)In bucketing due to equal volumes of data in each partition, joins at Map side will be quicker.
 		c)We can define a number of buckets during table creation.
 		
@@ -136,7 +136,7 @@ Q)How to create UDF in hive ?
 	5)select function_name(col) from table_name;
 	
 Q) What is serde ?
-	-> short name for Serializer and Deserializer ?
+	-> short name for Serializer and Deserializer
 	-> hive uses the serde as InputFormat to read and write table rows
 	-> Serde : InputFileFormat  -> <key,value> -> Deserializer -> Row Object   ==> Row Object -> Serializer -> <key,value> -> OutputFileFormat -> HDFS File
 	->Serde main methods
@@ -160,7 +160,7 @@ Q) What are Hive Storage Options:
  Q)Word count in Hive ?
 	CREATE TABLE WORD_COUNTS as SEELCT Word,count(1) as cnt (SELECT  explode(split(line,' ')) as word from table) w GROUP BY WORD order by word.
 Q) How to improve hive performace?
-	1. partitioning tables
+	1.partitioning tables
 	2.De-normalize table.
 	3.compress map/reduce output
 	4.map joins
@@ -197,12 +197,17 @@ Q) Partition with Bucketing example?
 	PARTITIONED BY (gender string,  category string,color string)
 	CLUSTERED BY (price) INTO 50 BUCKETS;
 Q) What is vectorization in hive?
-	It’s a query optimization technique. Instead of processing multiple rows, Vectorization allows to process a batch of rows as a unit.
-	Consequently it can optimize query performance. The file must be stored in ORC format to enable this Vectorization.
+	It’s a query optimization technique. Vectorization allows Hive to process a batch of rows together instead of processing one row at a time.
+	Each batch is usually an array of primitive types. Operations are performed on the entire column vector, which improves the instruction pipelines and cache usage.
+	The file must be stored in ORC format to enable this Vectorization.
 	It’s disabled by default, but enable this property by run this command.
 	set hive.vectorized.execution.enabled=true;
-Q)How to add partition  to existing table ?
-	ALTER TABLE Transaction ADD PARTITION (Day=date '2019-11-22')  LOCATION '/apps/bank/cust_transactions/00';
 Q) Show table create statement for created table?
 	Show Create Table tablename
-	
+Q)Convert Internal table into External table and vice versa ?
+  ALTER TABLE <tablename> SET TBLPROPERTIES('EXTERNAL'='TRUE');
+  ALTER TABLE <tablename> SET TBLPROPERTIES('EXTERNAL'='FALSE');
+
+Q).When should we use SORT BY instead of ORDER BY?
+	We should use SORT BY instead of ORDER BY when we have to sort huge datasets because SORT BY clause sorts the data using multiple reducers
+	whereas ORDER BY sorts all of the data together using a single reducer. Therefore, using ORDER BY against a large number of inputs will take a lot of time to execute.

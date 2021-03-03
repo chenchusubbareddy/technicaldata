@@ -1,27 +1,25 @@
 java 8 new features:
 -------------------
 Q)Java8 new features?
-	1)lambda expressions
-	2)functional interfaces
-	3)default methods
-	4)predicates
-	5) functions ,consumer ,supplier 
-	6)Double colon operators
-	7)stream api
-	8)date and time api
+	1)lambda expressions.
+	2)functional interfaces.
+	3)default methods.
+	4)predicates.
+	5)functions ,consumer ,supplier. 
+	6)Double colon operators.
+	7)stream api.
+	8)date and time api.
 	
 Q) Java 8 Stream Intermediate And Terminal Operations ?
-     Intermediate operations return a stream ,,can be pipelined to another stream ,These are lazy and executed when terminal operation called.
+     Intermediate operations return a stream,can be pipelined to another stream ,These are lazy and executed when terminal operation called.
 	 Ex: map(), filter(), distinct(), sorted(), limit(), skip()
 	 Terminal operations return end results not  stream.
 	 forEach(), toArray(), reduce(), collect(), min(), max(), count(), anyMatch(), allMatch(), noneMatch(), findFirst(), findAny()
-	 
-	 
-	 
-Q) Hashmap updates in java8 ?
-	1.before Java 8, the performance of the HashMap was poor due to the hash collision, 
-	2. the retrieval time of elements from HashMap increases from O(1) to O(n)
-	3.Java 8 hash elements use balanced trees instead of linked lists after a certain threshold is reached
+	 	 
+Q) HashMap updates in java8 ?
+	1.before Java 8, the performance of the HashMap was poor due to the hash collision.
+	2.the retrieval time of elements from HashMap increases from O(1) to O(n).
+	3.Java 8 hash elements use balanced tree instead of linked lists after a certain threshold is reached.
 	4.HashMap starts with storing Entry objects in a linked list but after the number of items in a hash becomes larger than a certain threshold.
 		The hash will change from using a linked list to a balanced tree
 Q)What is lambda expression?
@@ -49,4 +47,4 @@ Q) Do we have PermGen in Java 8?
 	Major advantage of MetaSpace over permgen:
 	PermGen was fixed in term of mazimum size and can not grow dynamically but Metaspace can grow dynamically and do not have any size constraint.
 
-
+	

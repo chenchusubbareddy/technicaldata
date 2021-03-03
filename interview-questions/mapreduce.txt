@@ -1,4 +1,4 @@
-i)TextInputFormat is default input format.
+1)TextInputFormat is default input format.
 2)TextoutputFormat is default output format.
 3)IdentityMapper is Identity Mapper format.
 4)IdentityReducer is Identity Mapper format.
@@ -40,7 +40,7 @@ Compression in Mapreduce:
 				DefaultCodec  =>  .deflate   ( by default is default codec)
 				GZIPCodec => .gz
 				BZIPCodec => .snappy   
-				SnappyCodec => .codecs     ( best codec)
+				SnappyCodec => .codecs      ( best codec)
 				LZOCodec => .lzo 			( best codec)
 				
 by default hadoop disable the codec
@@ -60,7 +60,7 @@ Q)Mapreduce Performance improvements ?
 	5.Tune mapper/reducer task
 	6.Minimizing the Disk Spill by Compressing Map Output  (LZO Compression)
 	7.Re-usage of Writables
-	8.map side joins
+	8.map side joins.
 	
 Q) What is mapreduce flow ?
-  File  -> InputFormat -> InputSplit -> RecordReader ->  Mapper -> Combiner -> Partitioner -> shuffle & Sort -> Reducer-> ouputFormat -> output folder
+		File  -> InputFormat -> InputSplit -> RecordReader ->  Mapper -> Combiner -> Partitioner -> shuffle & Sort -> Reducer -> ouputFormat  -> output folder

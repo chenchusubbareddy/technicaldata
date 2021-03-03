@@ -20,4 +20,9 @@ New in junit 5 :
 
 Junit5 Annotations:
 -------------------
-@Test
+@Test       @ParameterizedTest   @RepeatedTest @TestFactory
+@TestTemplate @TestMethodOrder @TestInstance @DisplayName
+@DisplayNameGeneration  @BeforeEach  @AfterEach
+@BeforeAll  @AfterAll   @Nested
+@Tag  @Disabled   @Timeout  @ExtendWith    @RegisterExtension
+@TempDir

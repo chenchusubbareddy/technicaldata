@@ -1,108 +1,106 @@
 spring features:
 ---------------
-1. Modular framework ,one can choose any module
-2. lightweight ,we can use pojo  classes to develop applications.
-3. non-invasive , no need extend framework given classes/intetfaces
-4. it can easily integrate with other framework.
-5. provides dependecy injection
-6. IOC container.
+	1. Modular framework ,one can choose any module.
+	2. light weight ,we can use pojo  classes to develop applications.
+	3. non-invasive , no need extend framework given classes/intetfaces.
+	4. it can easily integrate with other framework.
+	5. provides dependecy injection.
+	6. IOC container.
 ======================================================================================================================================================================================
 POJO vs JAVA BEAN vs SPRING BEAN:
 --------------------------------
- 1. POJO class which is directly compiled by java compiler without taking support of jar file in classpath.
- 2 JAVA BEAN :
-	a. Class must public 
-	b. Class must contains default constructor
-	c. private variables must contain either settter or getter or both
-	d. can implement atmost Serialiable or Externalizable ( but not others)
+	1. POJO class which is directly compiled by java compiler without taking support of jar file in classpath.
+	2.JAVA BEAN :
+		a. Class must public.
+		b. Class must contains default constructor.
+		c. private variables must contain either settter or getter or both.
+		d. can implement atmost Serialiable or Externalizable ( but not others).
 3. SPRING BEAN : a bean its life cycle maintained by spring container. 
 =====================================================================================================================================================================================
 Spring container:
 ----------------
 it is a class which provides runtime support for other classes.
-  BeanFactory          ApplicationContext
-  XMLBeanFactory	   ClassPathXmlApplicationContext
-					   FileSystemXmlApplicationContext
-					   XmlWebApplicationContext
-						
+	BeanFactory          ApplicationContext
+	XMLBeanFactory	     ClassPathXmlApplicationContext
+					     FileSystemXmlApplicationContext
+					     XmlWebApplicationContext
 						
 Collection type dependecies:
 ----------------------------
-List,Set,Map,Properties
-<list>
-<set>
-<map>
-<props>
+	List,Set,Map,Properties
+	<list>
+	<set>
+	<map>
+	<props>
 ===============================================================================================================================================================================
 Circular Dependecies:
 ---------------------
-Two beans depends on each other and constructor injection defined in both  beans.
+	Two beans depends on each other and constructor injection defined in both  beans.
 ===============================================================================================================================================================================
 
 
 Constructor injection vs Setter injection:
 -------------------------------------------
-1. if dependecy injection is mandotaory             1.if dependecy is optional 
-2. if dependecy is final then this best				2. we cannot define final dependency in setter (compile time error)
-3. circular dependency issue not solved				3.circular dependency problem can be solved
-4. constructor cannot override setter value	    	4.setter  can override constructor injected value
-5. setter value cannot be used in constructor       5. constructor injected value can be used setter
-6. all dependecies can inject with one constructor  6. need to create one setter for constructor.
-7. constructor  makes bean object imutable.			7. setter injection make bean object as mutable.
-
+	1. if dependecy injection is mandotaory             1.if dependecy is optional. 
+	2. if dependecy is final then this best				2. we cannot define final dependency in setter (compile time error).
+	3. circular dependency issue not solved				3.circular dependency problem can be solved.
+	4. constructor cannot override setter value	    	4.setter  can override constructor injected value.
+	5. setter value cannot be used in constructor       5. constructor injected value can be used setter.
+	6. all dependecies can inject with one constructor  6. need to create one setter for constructor.
+	7. constructor  makes bean object imutable.			7. setter injection make bean object as mutable.
 
 AutoWiring:
 ----------
-combining spring beans with spring container is called autowiring 
-autowiring not possible for colletion type dependecies.
-  By Name
-  By Type
-  Constructor   
+	combining spring beans with spring container is called autowiring 
+	autowiring not possible for colletion type dependecies.
+		By Name
+		By Type
+		Constructor   
 ===================================================================================================================================================================================
-Types of depenndency  injection:
--------------------------------
-1.  setter injection
-2.  constructor injection
-3.  lookup method injection
-4.  interface injection (BeanNameAware,BeanFatoryAware,ApplicationContextWare)
+		Types of depenndency  injection:
+		-------------------------------
+		1.  setter injection
+		2.  constructor injection
+		3.  lookup method injection
+		4.  interface injection (BeanNameAware,BeanFatoryAware,ApplicationContextWare)
 ==================================================================================================================================================================================
-Bean Scopes:
------------
- 1.singleton
- 2.Prototype
- 3.Request
- 4.Session
- 5.global session
+	Bean Scopes:
+	-----------
+		1.singleton 
+		2.Prototype
+		3.Request
+		4.Session
+		5.global session
 ====================================================================================================================================================================================
 Bean Life cycle:
 ---------------
-does not exist
-instatiated
-dependencies are injected
-If BeanNameAware -> setBeanName()
-if BeanFatoryAware -> setBeanFactory()
-if ApplicationContextWare -> setApplicationContext()
-if BeanPostProcessor -> postProcessBeforeInitialization()
-if InitializingBean ->  afterpropertiesSet()
-if init-method configured then call this method
-if BeanPostProcessor -> postProcessAfterInitialization()
-initialized
-service
-DisposableBean -> destroy()
-destroy-method 
-destroy 
+	does not exist
+	instatiated
+	dependencies are injected
+	If BeanNameAware -> setBeanName()
+	if BeanFatoryAware -> setBeanFactory()
+	if ApplicationContextWare -> setApplicationContext()
+	if BeanPostProcessor -> postProcessBeforeInitialization()
+	if InitializingBean ->  afterpropertiesSet()
+	if init-method configured then call this method
+	if BeanPostProcessor -> postProcessAfterInitialization()
+	initialized
+	service
+	DisposableBean -> destroy()
+	destroy-method 
+	destroy 
 
 ====================================================================================================================================================================================
 Sterotype annotation:
 ---------------------
-@Component ,@Service ,@Repository ,@Contoller
+	@Component ,@Service ,@Repository ,@Contoller
 
 ===================================================================================================================================================================================
 BeanFactory  vs ApplicationContext
 ---------------------------------
-1.Lazy load singleton beans          1.early load singleton objects
-2.supports singleton & prototype   	 2.all scopes
-3.Not support component scan		 3.support component scan
-4.set BeanPostProcessor explicit     4.no need to set explict just configure in spring xml
-5.not support txs,security           5.support txs,security
-6.explicit BFPP                      6.just configure in spring xml
+	1.Lazy load singleton beans          1.early load singleton objects
+	2.supports singleton & prototype   	 2.all scopes
+	3.Not support component scan		 3.support component scan
+	4.set BeanPostProcessor explicit     4.no need to set explict just configure in spring xml
+	5.not support txs,security           5.support txs,security
+	6.explicit BFPP                      6.just configure BFPP in spring xml
