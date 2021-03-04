@@ -202,7 +202,7 @@ Q) What is spark core ?
 		3)in-memory computation, fault tolerance
 		4)Memory management,monitoring jobs
 		5)interaction with storage systems
-		6)allow diverse workloads for streaming, SQL, and machine learning
+		6)allow diverse workloads for streaming, SQL, and machine learning.
 		
 Q)How to start/stop job History server ?
 	$SPARK_HOME/sbin/start-history-server.sh
@@ -239,7 +239,7 @@ Q)What is spark architecture ?
 	Cluster Manager :
 	----------------
 	1.The role of the cluster manager is to allocate resources across applications.
-	2.cluster managers such as Hadoop YARN, Apache Mesos and Standalone Scheduler.
+	2.cluster managers such as Hadoop YARN, Apache Mesos and Standalone Scheduler,Kubernaties.
 	
 	Worker Node:
 	-----------
@@ -255,11 +255,9 @@ Q)What is spark architecture ?
 	Task:
 	-----
 	A unit of work that will be sent to one executor.
-	
-	
 
 Q) Major issue faced in spark ?
-  Batch size is 10 by default ,increased to 10000.
+	Batch size is 10 by default ,increased to 10000.
 Q) Datset size generally used in project?
 	100 million records
 Q) What is spark encoders ?
@@ -313,4 +311,6 @@ Q)Different strategies in partition ?
 		1.Hash partiton : this use hash function  to identify partition number
 		2.Range partiton:Range partitioner devides the data based on a sorted key.
 		Choose right partition avoid data skew ness.
+Q)Application master role in Spark yarn mode ?
+
 		

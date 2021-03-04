@@ -77,4 +77,12 @@ Q) Contract between .equals and hashcode ?
    4.r1.hashcode()==r2.hashcode() is false => r1.equals(r2)  false
 	
 Q)Detect Loop in LinkedList?
-	
+
+
+Q)What is Ec2 in aws ?
+
+
+Q) What is S3 in AWS ?
+
+
+Q) What is EMR in AWS ?

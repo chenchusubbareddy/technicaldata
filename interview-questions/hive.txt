@@ -211,3 +211,17 @@ Q)Convert Internal table into External table and vice versa ?
 Q).When should we use SORT BY instead of ORDER BY?
 	We should use SORT BY instead of ORDER BY when we have to sort huge datasets because SORT BY clause sorts the data using multiple reducers
 	whereas ORDER BY sorts all of the data together using a single reducer. Therefore, using ORDER BY against a large number of inputs will take a lot of time to execute.
+Q)Hive Architecture ?
+  CLI/WEB INTERFACE/JDBC:
+  HIveServer2: HiveServer2 enables clients to execute queries against the Hive. It allows multiple clients to submit requests to Hive and retrieve the final results. 
+				It is basically designed to provide the best support for open API clients like JDBC and ODBC
+  Driver :		The Hive driver receives the HiveQL statements submitted by the user through the command shell.
+				It creates the session handles for the query and sends the query to the compiler.
+  Metastore:    Metastore is a central repository that stores the metadata information about the structure of tables and partitions, including column and column type information.
+				It also stores information of serializer and deserializer, required for the read/write operation, and HDFS files where data is stored. 
+				This metastore is generally a relational database.
+  Compile:     Hive compiler parses the query. It performs semantic analysis and type-checking on the different query blocks and query expressions by using the metadata stored
+			    in metastore and generates an execution plan.
+  
+  Optimizer:  Optimizer performs the transformation operations on the execution plan and splits the task to improve efficiency and scalability.
+  Execution Engine: after the compilation and optimization steps, executes the execution plan created by the compiler in order of their dependencies using Hadoop.

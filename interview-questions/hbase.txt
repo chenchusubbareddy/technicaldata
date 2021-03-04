@@ -5,11 +5,11 @@ Difference between Hbase and RDBMS ?
 1.Column-oriented ,distributed ,versioned db.				   1.Row oriented ,Tabular structured data
 2.Don't have query language like SQL.						   2.Have SQL query language support.
 3.can handle structured and semi structured data.              3.can handle structured data.
-4.designed to store De-normalized data						   4.designed to store Normalized data.
-5.no support for JOINS or aggregations						   5.support JOINS or aggregations 
-6.Can handle huge  volume of data							   6.Can handle limited amount of data at a time.
-7.Schema is dynamic						   					   7.Create structure/schema upfront.
-8.not used memory to represent null	records					   8.used used memory to represent null records
+4.designed to store De-normalized data.						   4.designed to store Normalized data.
+5.no support for JOINS or aggregations.						   5.support JOINS or aggregations 
+6.Can handle huge  volume of data.							   6.Can handle limited amount of data at a time.
+7.Schema is dynamic.						   					   7.Create structure/schema upfront.
+8.not used memory to represent null	records.					   8.used used memory to represent null records
 9.validations while insert/delte/modify					       9.no validations while insert/delte/modify		
 
 Q) When should prefer HBASE over other database?
@@ -33,7 +33,7 @@ Q)Delete operation on Hbase:
 Q) What is Compaction in hbase ?
    Flushing data from memstore to disk implies a creation of new hfile for each write 	operation  and we will end up with more hfiles ,
    so to avoid this there are two types  of compactions.
-   Major Compation:(Every hour)
+   Minor Compation:(Every hour)
    ---------------
    Minor compaction is the process of combining the configurable number of smaller HFiles into one Large HFile. 
    Minor compaction is very important because without it, reading particular rows requires many disk reads and can reduce overall performance.
@@ -43,7 +43,7 @@ Q) What is Compaction in hbase ?
    Major compaction is a process of combining the StoreFiles of regions into a single StoreFile. It also deletes remove and expired versions.
    By default, major compaction runs every 24 hours and merges all StoreFiles into single StoreFile. 
    After compaction, if the new larger StoreFile is greater than a certain size (defined by property), the region will split into new regions.
-   Major compaction is a heavyweight operation, so run it when your cluster load is low. 
+   Major compaction is a heavy weight operation, so run it when your cluster load is low. 
    
 Q)BULK LOAD in HBASE ?
    in hbase we use ImportTsv Utility to read bulk data.
@@ -55,3 +55,8 @@ Q)What is versoning in hbase?
 	Each timestamp is long integer value measured in milliseconds. It records the time that has passed since midnight.
 	create 'test', { NAME => 'cf', VERSIONS => 5 }
 	scan 'test',{COLUMNS => 'cf:a', VERSIONS => 5}
+Q)What is hbase Rowkey and how to design customized row key ?
+
+Q)Hbase order of start services ?
+	Zookeper -> Hmaster -> HRegionServer .
+	
